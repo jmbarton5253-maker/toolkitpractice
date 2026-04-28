@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2C2416">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Toolkit Practice">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Trip Leader Toolkit Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --cream: #F5F0E8;
+  --ink: #2C2416;
+  --rust: #8B4A2B;
+  --olive: #5C6B3A;
+  --amber: #C8862A;
+  --sage: #7A8C6A;
+  --ink2: #4a3c28;
+  --cream2: #EDE8DE;
+  --header-h: 62px;
+  --summary-h: 46px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── GRAIN OVERLAY ── */
+#grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.04;
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── HEADER ── */
+.app-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  background: var(--ink);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 2px 16px rgba(44,36,22,0.35);
+}
+.header-inner {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.app-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+.app-title small {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 400;
+  color: var(--amber);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.tab-nav {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.tab-btn {
+  background: transparent;
+  border: 1.5px solid rgba(245,240,232,0.2);
+  color: rgba(245,240,232,0.55);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 6px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.18s ease;
+}
+.tab-btn:hover { border-color: var(--amber); color: var(--amber); }
+.tab-btn.active { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+
+/* ── PANELS ── */
+.panel { display: none; padding-top: var(--header-h); }
+.panel.active { display: block; }
+
+/* ── SUMMARY BAR ── */
+.summary-bar {
+  background: var(--ink);
+  border-bottom: 2px solid rgba(200,134,42,0.5);
+  padding: 0 20px;
+  height: var(--summary-h);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: nowrap;
+  position: sticky;
+  top: var(--header-h);
+  z-index: 100;
+  overflow-x: auto;
+}
+.s-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  color: rgba(245,240,232,0.6);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.s-num {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--cream);
+  font-variant-numeric: tabular-nums;
+}
+.s-stat.s-learned .s-num { color: var(--sage); }
+.s-stat.s-hunting .s-num { color: var(--amber); }
+.s-stat.s-unseen .s-num { color: rgba(245,240,232,0.35); }
+.s-divider { width: 1px; height: 18px; background: rgba(245,240,232,0.12); flex-shrink: 0; }
+.hunt-filter-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1.5px solid var(--amber);
+  color: var(--amber);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
+  padding: 4px 13px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.hunt-filter-btn:hover, .hunt-filter-btn.active {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+/* ── STUDY LAYOUT ── */
+.study-layout {
+  display: flex;
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* ── SIDEBAR ── */
+.chapter-sidebar {
+  width: 240px;
+  min-width: 240px;
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--header-h) + var(--summary-h));
+  height: calc(100vh - var(--header-h) - var(--summary-h));
+  overflow-y: auto;
+  border-right: 1px solid rgba(44,36,22,0.12);
+  background: rgba(245,240,232,0.4);
+  padding: 8px 0 24px;
+}
+.sb-item {
+  padding: 11px 16px 10px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.sb-item:hover { background: rgba(200,134,42,0.07); border-left-color: rgba(200,134,42,0.4); }
+.sb-item.active { background: rgba(200,134,42,0.1); border-left-color: var(--amber); }
+.sb-name {
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  margin-bottom: 7px;
+}
+.sb-item.active .sb-name { color: var(--rust); }
+.sb-prog-row { display: flex; align-items: center; gap: 7px; }
+.sb-prog-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(44,36,22,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sb-prog-fill {
+  height: 100%;
+  background: var(--sage);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  min-width: 0;
+}
+.sb-pct { font-size: 0.58rem; color: var(--ink2); min-width: 26px; text-align: right; }
+
+/* ── QUESTIONS MAIN ── */
+.questions-main {
+  flex: 1;
+  padding: 20px 22px 60px;
+  min-width: 0;
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background: rgba(255,255,255,0.45);
+  border: 1px solid rgba(44,36,22,0.1);
+  border-left: 4px solid rgba(44,36,22,0.1);
+  border-radius: 4px;
+  padding: 15px 18px 14px;
+  margin-bottom: 11px;
+  transition: border-left-color 0.25s ease, background 0.25s ease, box-shadow 0.2s ease;
+}
+.q-card:hover { box-shadow: 0 2px 10px rgba(44,36,22,0.09); }
+.q-card.st-hunting {
+  border-left-color: var(--amber);
+  background: rgba(200,134,42,0.04);
+}
+.q-card.st-learned {
+  border-left-color: var(--sage);
+  background: rgba(122,140,106,0.04);
+}
+.q-card.st-unseen { border-left-color: rgba(44,36,22,0.1); }
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-bottom: 9px;
+  flex-wrap: wrap;
+}
+.q-num {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--ink2);
+  background: rgba(44,36,22,0.08);
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ch-badge {
+  display: inline-block;
+  font-size: 0.58rem;
+  font-weight: 500;
+  padding: 3px 9px 2px;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+  border: 1px dashed rgba(255,255,255,0.35);
+  flex-shrink: 0;
+  margin-top: 1px;
+  line-height: 1.5;
+}
+.q-text {
+  font-size: 0.82rem;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 11px;
+}
+.card-btns {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 11px;
+  flex-wrap: wrap;
+}
+.c-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.63rem;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  border: 1.5px solid transparent;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+.c-btn.hunt { border-color: var(--amber); color: var(--amber); background: transparent; }
+.c-btn.hunt:hover, .c-btn.hunt.on { background: var(--amber); color: var(--ink); }
+.c-btn.lrn { border-color: var(--sage); color: var(--sage); background: transparent; }
+.c-btn.lrn:hover, .c-btn.lrn.on { background: var(--sage); color: var(--cream); }
+.c-btn.rst { border-color: rgba(44,36,22,0.18); color: var(--ink2); background: transparent; }
+.c-btn.rst:hover { background: rgba(44,36,22,0.07); border-color: rgba(44,36,22,0.3); }
+
+.notes-wrap { position: relative; }
+.notes-ta {
+  width: 100%;
+  min-height: 52px;
+  background: rgba(245,240,232,0.75);
+  border: 1px solid rgba(44,36,22,0.14);
+  border-radius: 3px;
+  padding: 7px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ink);
+  line-height: 1.55;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.notes-ta:focus { border-color: var(--amber); }
+.notes-ta::placeholder { color: rgba(44,36,22,0.28); }
+.save-flash {
+  position: absolute;
+  top: 5px;
+  right: 9px;
+  font-size: 0.58rem;
+  color: var(--sage);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.save-flash.show { opacity: 1; }
+
+.no-results {
+  text-align: center;
+  padding: 70px 20px;
+  color: var(--ink2);
+  font-size: 0.8rem;
+}
+
+/* ── DRILL PANEL ── */
+#drill-panel {
+  min-height: 100vh;
+}
+.drill-inner {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.drill-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.ring-wrap {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prog-ring { width: 82px; height: 82px; }
+.ring-track { fill: none; stroke: rgba(44,36,22,0.1); stroke-width: 7; }
+.ring-fill {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 0.55s cubic-bezier(.4,0,.2,1);
+}
+.ring-text {
+  position: absolute;
+  text-align: center;
+  pointer-events: none;
+}
+.ring-score {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.ring-lbl { display: block; font-size: 0.52rem; color: var(--ink2); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 1px; }
+
+.drill-meta { flex: 1; min-width: 0; }
+.drill-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.drill-sub { font-size: 0.67rem; color: var(--ink2); letter-spacing: 0.04em; }
+
+.timer-ctl { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+.timer-lbl { font-size: 0.6rem; color: var(--ink2); letter-spacing: 0.1em; text-transform: uppercase; margin-right: 2px; }
+.t-btn {
+  background: transparent;
+  border: 1.5px solid rgba(44,36,22,0.18);
+  color: var(--ink2);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  padding: 4px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.t-btn:hover { border-color: var(--rust); color: var(--rust); }
+.t-btn.on { background: var(--rust); border-color: var(--rust); color: var(--cream); }
+
+.timer-bar-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(44,36,22,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  display: none;
+}
+.timer-bar-track.show { display: block; }
+.timer-bar-fill {
+  height: 100%;
+  background: var(--amber);
+  border-radius: 3px;
+  transition: width 1s linear, background 0.3s;
+}
+.timer-bar-fill.danger { background: var(--rust); }
+
+/* ── DRILL CARD ── */
+.drill-card {
+  background: rgba(255,255,255,0.58);
+  border: 1px solid rgba(44,36,22,0.12);
+  border-radius: 6px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 3px 16px rgba(44,36,22,0.09);
+}
+.drill-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.drill-prog-txt { margin-left: auto; font-size: 0.62rem; color: var(--ink2); white-space: nowrap; }
+.drill-q-text {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.reveal-btn {
+  width: 100%;
+  background: transparent;
+  border: 1.5px dashed rgba(44,36,22,0.22);
+  color: var(--ink2);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.67rem;
+  padding: 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.05em;
+  transition: all 0.18s;
+  margin-bottom: 10px;
+}
+.reveal-btn:hover { border-color: var(--amber); color: var(--amber); }
+.drill-notes-box {
+  background: rgba(245,240,232,0.9);
+  border: 1px solid rgba(44,36,22,0.1);
+  border-radius: 3px;
+  padding: 11px 14px;
+  font-size: 0.74rem;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  display: none;
+  font-style: italic;
+}
+.drill-notes-box.show { display: block; }
+.drill-notes-box.empty { color: var(--ink2); }
+
+.drill-btns {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.d-btn {
+  flex: 1;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 11px 8px 9px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  letter-spacing: 0.04em;
+}
+.d-btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.d-btn .k { font-size: 0.53rem; opacity: 0.55; letter-spacing: 0.12em; }
+.d-btn.got { background: rgba(92,107,58,0.1); border-color: var(--olive); color: var(--olive); }
+.d-btn.got:hover:not(:disabled) { background: var(--olive); color: var(--cream); }
+.d-btn.got.fired { background: var(--olive) !important; color: var(--cream) !important; }
+.d-btn.missed { background: rgba(139,74,43,0.1); border-color: var(--rust); color: var(--rust); }
+.d-btn.missed:hover:not(:disabled) { background: var(--rust); color: var(--cream); }
+.d-btn.missed.fired { background: var(--rust) !important; color: var(--cream) !important; }
+.d-btn.skip { background: rgba(44,36,22,0.05); border-color: rgba(44,36,22,0.2); color: var(--ink2); flex: 0.65; }
+.d-btn.skip:hover:not(:disabled) { background: rgba(44,36,22,0.1); border-color: rgba(44,36,22,0.35); }
+
+/* ── DRILL EMPTY / COMPLETE ── */
+.drill-msg {
+  text-align: center;
+  padding: 64px 20px 40px;
+}
+.drill-msg h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.drill-msg p {
+  font-size: 0.76rem;
+  color: var(--ink2);
+  line-height: 1.7;
+  max-width: 380px;
+  margin: 0 auto 24px;
+}
+.drill-final-score {
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: var(--olive);
+  margin: 18px 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+.action-link-btn {
+  display: inline-block;
+  background: var(--rust);
+  border: none;
+  color: var(--cream);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 11px 26px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: background 0.2s;
+}
+.action-link-btn:hover { background: #7a3c22; }
+
+/* ── WELCOME MODAL ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(44,36,22,0.72);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.modal-backdrop.show { opacity: 1; }
+.modal-backdrop.hide { opacity: 0; pointer-events: none; }
+
+.modal-card {
+  background: var(--cream);
+  border-radius: 6px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 40px rgba(44,36,22,0.4);
+  overflow: hidden;
+  transform: translateY(12px) scale(0.97);
+  transition: transform 0.28s cubic-bezier(.2,.8,.3,1);
+}
+.modal-backdrop.show .modal-card { transform: translateY(0) scale(1); }
+
+.modal-head {
+  background: var(--ink);
+  padding: 22px 24px 18px;
+  border-bottom: 2px solid var(--amber);
+}
+.modal-head h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+.modal-head p {
+  font-size: 0.65rem;
+  color: var(--amber);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.modal-body { padding: 20px 24px 22px; }
+
+.modal-section { margin-bottom: 16px; }
+.modal-section:last-of-type { margin-bottom: 0; }
+
+.modal-section-title {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.modal-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(44,36,22,0.12);
+}
+
+.modal-rows { display: flex; flex-direction: column; gap: 5px; }
+.modal-row {
+  display: flex;
+  gap: 10px;
+  font-size: 0.73rem;
+  color: var(--ink);
+  line-height: 1.4;
+  align-items: baseline;
+}
+.modal-row .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.modal-row .dot.olive { background: var(--olive); }
+.modal-row .dot.rust  { background: var(--rust); }
+.modal-kbd {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.58rem;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+}
+
+.modal-footer {
+  padding: 0 24px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.modal-close-btn {
+  background: var(--rust);
+  border: none;
+  color: var(--cream);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 10px 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: background 0.18s;
+}
+.modal-close-btn:hover { background: #7a3c22; }
+
+.help-btn {
+  background: transparent;
+  border: 1.5px solid rgba(245,240,232,0.2);
+  color: rgba(245,240,232,0.5);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+.help-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(44,36,22,0.18); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(44,36,22,0.3); }
+
+/* ── MOBILE ── */
+@media (max-width: 800px) {
+  :root { --header-h: 56px; --summary-h: 42px; }
+  .app-header { padding: 0 14px; }
+  .app-title { font-size: 0.9rem; }
+  .tab-btn { padding: 5px 12px; font-size: 0.65rem; }
+  .summary-bar { padding: 0 12px; gap: 12px; }
+
+  .study-layout { flex-direction: column; }
+  .chapter-sidebar {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    position: static;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: none;
+    border-bottom: 1px solid rgba(44,36,22,0.1);
+    padding: 6px 0 4px;
+    background: rgba(245,240,232,0.6);
+    -webkit-overflow-scrolling: touch;
+  }
+  .sb-item {
+    min-width: 130px;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    flex-shrink: 0;
+    padding: 8px 12px;
+  }
+  .sb-item:hover, .sb-item.active {
+    border-bottom-color: var(--amber);
+    border-left-color: transparent;
+  }
+  .questions-main { padding: 14px 14px 40px; }
+
+  .drill-inner { padding: 16px 14px 40px; }
+  .drill-header { gap: 14px; }
+  .drill-card { padding: 20px 16px 18px; }
+  .drill-btns { gap: 5px; }
+  .d-btn { font-size: 0.68rem; padding: 10px 6px 8px; }
+
+  .timer-ctl { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .drill-btns { gap: 4px; }
+}
+
+/* ── DRILL GATE & MODE CARDS ── */
+.drill-gate { padding: 4px 0 24px; }
+.drill-gate-title { font-family:'Playfair Display',serif; font-size:1.35rem; color:var(--ink); margin-bottom:5px; }
+.drill-gate-sub { font-size:0.68rem; color:var(--ink2); margin-bottom:22px; }
+.mode-cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.mode-card {
+  background:rgba(255,255,255,0.6); border:2px solid rgba(44,36,22,0.12);
+  border-radius:6px; padding:20px 16px; cursor:pointer;
+  transition:all 0.18s; text-align:center; user-select:none;
+}
+.mode-card:hover { border-color:var(--amber); box-shadow:0 2px 10px rgba(44,36,22,0.1); }
+.mode-card.selected { border-color:var(--amber); background:rgba(200,134,42,0.07); }
+.mode-card-icon { font-size:1.6rem; margin-bottom:7px; line-height:1; }
+.mode-card-title { font-family:'Playfair Display',serif; font-size:0.95rem; color:var(--ink); margin-bottom:5px; }
+.mode-card-desc { font-size:0.63rem; color:var(--ink2); line-height:1.5; }
+
+/* Chapter checkbox selector */
+.ch-selector-title { font-size:0.62rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--rust); margin-bottom:9px; }
+.ch-checks { display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-height:260px; overflow-y:auto; }
+.ch-check-row { display:flex; align-items:center; gap:10px; cursor:pointer; padding:6px 10px; border-radius:3px; transition:background 0.12s; user-select:none; }
+.ch-check-row:hover { background:rgba(200,134,42,0.07); }
+.ch-check-row input[type=checkbox] { width:15px; height:15px; accent-color:var(--amber); flex-shrink:0; cursor:pointer; }
+.ch-check-label { font-size:0.71rem; color:var(--ink); }
+.ch-check-count { margin-left:auto; font-size:0.59rem; color:var(--ink2); }
+.drill-start-btn {
+  display:block; width:100%; background:var(--rust); border:none; color:var(--cream);
+  font-family:'DM Mono',monospace; font-size:0.76rem; font-weight:500;
+  padding:13px; border-radius:4px; cursor:pointer; letter-spacing:0.08em; transition:background 0.18s;
+}
+.drill-start-btn:hover { background:#7a3c22; }
+.drill-start-btn:disabled { opacity:0.38; cursor:not-allowed; }
+
+/* Text input reuse */
+.txt-input {
+  width:100%; background:rgba(245,240,232,0.85); border:1.5px solid rgba(44,36,22,0.15);
+  border-radius:3px; padding:10px 12px; font-family:'DM Mono',monospace; font-size:0.8rem;
+  color:var(--ink); outline:none; transition:border-color 0.18s; margin-bottom:10px;
+}
+.txt-input:focus { border-color:var(--amber); }
+.txt-input::placeholder { color:rgba(44,36,22,0.3); }
+.input-label { font-size:0.61rem; color:var(--ink2); letter-spacing:0.09em; text-transform:uppercase; margin-bottom:5px; }
+.input-group { margin-bottom:14px; }
+.two-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:4px; }
+
+/* ── SOLO DRILL ── */
+.solo-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+.solo-score-badge { background:var(--ink); color:var(--cream); font-size:0.68rem; font-weight:500; padding:5px 12px; border-radius:3px; }
+.solo-score-badge span { color:var(--sage); font-size:0.88rem; }
+.solo-prog { font-size:0.63rem; color:var(--ink2); }
+.solo-quit-btn { background:transparent; border:1.5px solid rgba(44,36,22,0.18); color:var(--ink2); font-family:'DM Mono',monospace; font-size:0.62rem; padding:4px 10px; border-radius:3px; cursor:pointer; transition:all 0.15s; }
+.solo-quit-btn:hover { border-color:var(--rust); color:var(--rust); }
+.solo-answer-area { margin-bottom:12px; }
+.solo-answer-label { font-size:0.6rem; color:var(--ink2); letter-spacing:0.09em; text-transform:uppercase; margin-bottom:6px; }
+.solo-answer-ta {
+  width:100%; background:rgba(245,240,232,0.85); border:1.5px solid rgba(44,36,22,0.14);
+  border-radius:3px; padding:10px 12px; font-family:'DM Mono',monospace;
+  font-size:0.82rem; color:var(--ink); line-height:1.55; resize:vertical; min-height:80px; outline:none; transition:border-color 0.18s;
+}
+.solo-answer-ta:focus { border-color:var(--amber); }
+.solo-answer-ta:disabled { opacity:0.75; }
+.solo-submit-btn { width:100%; background:var(--olive); border:none; color:var(--cream); font-family:'DM Mono',monospace; font-size:0.75rem; font-weight:500; padding:12px; border-radius:4px; cursor:pointer; letter-spacing:0.06em; transition:background 0.18s; margin-bottom:14px; }
+.solo-submit-btn:hover { background:#4a5a2e; }
+.solo-submit-btn:disabled { opacity:0.45; cursor:not-allowed; }
+.solo-compare { display:none; }
+.solo-compare.show { display:block; }
+.solo-notes-box { background:rgba(122,140,106,0.08); border:1px solid rgba(122,140,106,0.28); border-radius:3px; padding:10px 14px; font-size:0.74rem; color:var(--ink); line-height:1.6; margin-bottom:14px; }
+.solo-notes-lbl { font-size:0.59rem; color:var(--sage); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px; font-weight:500; }
+.solo-grade-btns { display:flex; gap:8px; }
+.solo-grade-btn { flex:1; font-family:'DM Mono',monospace; font-size:0.73rem; font-weight:500; padding:12px; border-radius:4px; cursor:pointer; border:2px solid transparent; transition:all 0.15s; letter-spacing:0.04em; }
+.solo-grade-btn.correct { background:rgba(92,107,58,0.1); border-color:var(--olive); color:var(--olive); }
+.solo-grade-btn.correct:hover { background:var(--olive); color:var(--cream); }
+.solo-grade-btn.wrong { background:rgba(139,74,43,0.1); border-color:var(--rust); color:var(--rust); }
+.solo-grade-btn.wrong:hover { background:var(--rust); color:var(--cream); }
+
+/* ── GROUP LOBBY ── */
+.room-code-display { text-align:center; background:var(--ink); border-radius:6px; padding:18px; margin-bottom:14px; }
+.room-code-label { font-size:0.58rem; color:rgba(245,240,232,0.5); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:5px; }
+.room-code-val { font-family:'Playfair Display',serif; font-size:2rem; color:var(--amber); letter-spacing:0.18em; }
+.room-code-tip { font-size:0.58rem; color:rgba(245,240,232,0.38); margin-top:5px; }
+.players-list { margin-bottom:12px; }
+.players-list-title { font-size:0.6rem; color:var(--ink2); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:7px; }
+.player-row { display:flex; align-items:center; gap:9px; padding:7px 11px; background:rgba(255,255,255,0.5); border:1px solid rgba(44,36,22,0.1); border-radius:3px; margin-bottom:4px; font-size:0.74rem; }
+.player-dot { width:7px; height:7px; border-radius:50%; background:rgba(44,36,22,0.25); flex-shrink:0; transition:background 0.3s; }
+.player-dot.ready { background:var(--sage); }
+.player-name { flex:1; color:var(--ink); }
+.player-tag { font-size:0.57rem; padding:2px 7px; border-radius:2px; letter-spacing:0.05em; }
+.player-tag.host { background:rgba(200,134,42,0.15); color:var(--amber); }
+.player-tag.ready-tag { background:rgba(122,140,106,0.15); color:var(--sage); }
+.ready-btn { width:100%; background:var(--olive); border:none; color:var(--cream); font-family:'DM Mono',monospace; font-size:0.74rem; font-weight:500; padding:12px; border-radius:4px; cursor:pointer; letter-spacing:0.07em; transition:all 0.18s; margin-bottom:7px; }
+.ready-btn:hover { background:#4a5a2e; }
+.ready-btn.on { background:transparent; color:var(--sage); border:2px solid var(--sage); }
+.conn-status { font-size:0.63rem; color:var(--ink2); text-align:center; padding:7px; }
+.conn-status.ok { color:var(--sage); }
+.conn-status.err { color:var(--rust); }
+
+/* ── GROUP GAME ── */
+.group-game-hdr { display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+.judge-badge { background:rgba(200,134,42,0.15); color:var(--amber); border:1px solid rgba(200,134,42,0.3); font-size:0.62rem; font-weight:500; padding:4px 10px; border-radius:3px; letter-spacing:0.06em; }
+.judge-badge.you-judge { background:var(--rust); color:var(--cream); border-color:var(--rust); }
+.submission-list { margin-bottom:12px; }
+.sub-row { display:flex; align-items:flex-start; gap:9px; padding:8px 11px; background:rgba(255,255,255,0.5); border:1px solid rgba(44,36,22,0.1); border-radius:3px; margin-bottom:4px; transition:all 0.2s; }
+.sub-row.ok { background:rgba(92,107,58,0.08); border-color:rgba(92,107,58,0.28); }
+.sub-row.no { background:rgba(139,74,43,0.05); border-color:rgba(139,74,43,0.18); opacity:0.6; }
+.sub-name { font-size:0.63rem; font-weight:500; color:var(--ink2); white-space:nowrap; min-width:56px; }
+.sub-answer { flex:1; font-size:0.73rem; color:var(--ink); line-height:1.4; }
+.sub-order { font-size:0.58rem; color:var(--ink2); white-space:nowrap; }
+.verdict-btns { display:flex; gap:4px; }
+.vbtn { background:transparent; border:1.5px solid rgba(44,36,22,0.15); font-size:0.78rem; width:28px; height:28px; border-radius:3px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.12s; line-height:1; }
+.vbtn.yes { border-color:var(--olive); color:var(--olive); }
+.vbtn.yes:hover { background:var(--olive); color:var(--cream); }
+.vbtn.no { border-color:var(--rust); color:var(--rust); }
+.vbtn.no:hover { background:var(--rust); color:var(--cream); }
+.next-q-btn { display:block; width:100%; background:var(--olive); border:none; color:var(--cream); font-family:'DM Mono',monospace; font-size:0.75rem; font-weight:500; padding:12px; border-radius:4px; cursor:pointer; letter-spacing:0.07em; transition:background 0.18s; margin-top:10px; }
+.next-q-btn:hover { background:#4a5a2e; }
+.scoreboard { margin:14px 0 20px; }
+.score-row { display:flex; align-items:center; padding:8px 12px; border-radius:3px; margin-bottom:3px; gap:10px; }
+.score-rank { font-size:0.63rem; font-weight:500; color:var(--ink2); min-width:22px; }
+.score-name { flex:1; font-size:0.76rem; color:var(--ink); }
+.score-pts { font-size:0.9rem; font-weight:500; color:var(--olive); font-variant-numeric:tabular-nums; }
+.score-row:nth-child(1) { background:rgba(200,134,42,0.1); }
+.score-row:nth-child(2) { background:rgba(44,36,22,0.05); }
+.score-row:nth-child(3) { background:rgba(44,36,22,0.03); }
+
+/* Compact chapter pill buttons for group lobby */
+.ch-pills { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.ch-pill { background:transparent; border:1.5px solid rgba(44,36,22,0.18); color:var(--ink2); font-family:'DM Mono',monospace; font-size:0.6rem; padding:3px 8px; border-radius:2px; cursor:pointer; transition:all 0.14s; }
+.ch-pill:hover { border-color:var(--amber); color:var(--amber); }
+.ch-pill.on { background:var(--amber); border-color:var(--amber); color:var(--ink); }
+
+@media (max-width: 480px) {
+  .mode-cards { grid-template-columns:1fr; }
+  .two-btns { grid-template-columns:1fr; }
+  .solo-grade-btns { flex-direction:column; }
+}
+
+/* ── SAFE AREAS — notch + home indicator ── */
+.app-header {
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+}
+.panel {
+  padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+}
+.summary-bar {
+  top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+}
+.chapter-sidebar {
+  top: calc(var(--header-h) + var(--summary-h) + env(safe-area-inset-top, 0px));
+  height: calc(100vh - var(--header-h) - var(--summary-h) - env(safe-area-inset-top, 0px));
+}
+
+/* ── BOTTOM NAV (mobile only) ── */
+.bottom-nav { display: none; }
+
+@media (max-width: 800px) {
+  /* Hide header tabs — bottom nav takes over */
+  .tab-nav .tab-btn { display: none; }
+
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(54px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--ink);
+    border-top: 2px solid rgba(200,134,42,0.5);
+    z-index: 150;
+  }
+  .bnav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    color: rgba(245,240,232,0.38);
+    cursor: pointer;
+    transition: color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom: 2px;
+  }
+  .bnav-btn.active { color: var(--amber); }
+  .bnav-icon { font-size: 1.05rem; line-height: 1; }
+  .bnav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Push content above bottom nav */
+  .questions-main  { padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+  .drill-inner     { padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Larger, easier-to-tap card buttons */
+  .c-btn {
+    min-height: 38px;
+    padding: 8px 14px;
+    font-size: 0.67rem;
+  }
+  .d-btn { min-height: 54px; font-size: 0.74rem; }
+
+  /* Prevent iOS zoom on textarea focus (requires font-size >= 16px) */
+  .notes-ta { font-size: 16px; }
+
+  /* Momentum scrolling */
+  .chapter-sidebar { -webkit-overflow-scrolling: touch; }
+
+  /* Help button always visible on mobile */
+  .help-btn { display: flex; }
+}
+
+/* Tap highlight off for all interactive elements */
+button { -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+<body>
+
+<div id="grain"></div>
+
+<!-- WELCOME MODAL -->
+<div class="modal-backdrop" id="modal" onclick="handleBackdropClick(event)">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+    <div class="modal-head">
+      <h2 id="modal-title">Trip Leader Toolkit Practice</h2>
+      <p>188 questions &nbsp;·&nbsp; No answer key needed &nbsp;·&nbsp; Look it up in your book</p>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Study Mode</div>
+        <div class="modal-rows">
+          <div class="modal-row"><span class="dot"></span><span>Browse all 188 questions, filtered by chapter using the left sidebar</span></div>
+          <div class="modal-row"><span class="dot rust"></span><span>Mark a question <strong>Hunting</strong> while you're still looking up the answer in your book</span></div>
+          <div class="modal-row"><span class="dot olive"></span><span>Mark it <strong>Learned</strong> once you've found and understood the answer</span></div>
+          <div class="modal-row"><span class="dot"></span><span>Type your answer in the notes box — it auto-saves when you click away</span></div>
+          <div class="modal-row"><span class="dot"></span><span>Use <strong>Hunting List</strong> in the summary bar to focus on unresolved questions</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Drill Mode</div>
+        <div class="modal-rows">
+          <div class="modal-row"><span class="dot"></span><span>Choose any section, then drill every question from that section</span></div>
+          <div class="modal-row"><span class="dot olive"></span><span><strong>Solo</strong> — type an answer, submit it, then self-check against your saved notes</span></div>
+          <div class="modal-row"><span class="dot rust"></span><span><strong>Group</strong> — 2+ ready players race to answer while the rotating judge awards points</span></div>
+          <div class="modal-row"><span class="dot"></span><span>Faster correct group answers score more points; judges rotate each question</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="flex-direction:column;gap:12px;align-items:stretch;">
+      <div style="background:rgba(44,36,22,0.06);border:1px solid rgba(44,36,22,0.1);border-radius:3px;padding:9px 12px;font-size:0.65rem;color:var(--ink2);line-height:1.5;">
+        <strong style="color:var(--rust);">Add to Home Screen</strong> — In Safari, tap the
+        <strong>Share</strong> button (□↑) then <strong>Add to Home Screen</strong> for a full-screen, app-like experience. Works offline once loaded.
+      </div>
+      <button class="modal-close-btn" onclick="closeModal()" style="align-self:flex-end;">Let's get to work →</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="app">
+
+  <header class="app-header">
+    <div class="header-inner">
+      <h1 class="app-title">
+        HXP Trip Leader
+        <small>Toolkit Practice</small>
+      </h1>
+      <nav class="tab-nav">
+        <button class="tab-btn active" id="tab-study" onclick="switchTab('study')">◉ Study</button>
+        <button class="tab-btn"        id="tab-drill" onclick="switchTab('drill')">◈ Drill</button>
+        <button class="help-btn" onclick="openModal()" title="How to use this app">?</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- STUDY PANEL -->
+  <section id="study-panel" class="panel active">
+    <div class="summary-bar" id="summary-bar"></div>
+    <div class="study-layout">
+      <aside class="chapter-sidebar" id="sidebar"></aside>
+      <main  class="questions-main"  id="q-main"></main>
+    </div>
+  </section>
+
+  <!-- DRILL PANEL -->
+  <section id="drill-panel" class="panel">
+    <div class="drill-inner">
+      <div id="drill-header"></div>
+      <div id="drill-content"></div>
+    </div>
+  </section>
+
+</div><!-- #app -->
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav" aria-label="Main navigation">
+  <button class="bnav-btn active" id="bnav-study" onclick="switchTab('study')">
+    <span class="bnav-icon">◉</span>
+    <span class="bnav-label">Study</span>
+  </button>
+  <button class="bnav-btn" id="bnav-drill" onclick="switchTab('drill')">
+    <span class="bnav-icon">◈</span>
+    <span class="bnav-label">Drill</span>
+  </button>
+</nav>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════
+
+const QUESTIONS = [
+  {id:1,chapter:"Chapter 1",q:"Who's life-changing influence will most affect the future life decisions of your Builders?"},
+  {id:2,chapter:"Chapter 1",q:"TRUE or FALSE: With people who are very different from one another, positive peer groups form naturally without extra Trip Leader help."},
+  {id:3,chapter:"Chapter 1",q:"TRUE or FALSE: You need to create a successful group dynamic by yourself because trips aren't structured for success."},
+  {id:4,chapter:"Chapter 1",q:"One of the big secrets to unifying Builders is dividing them into _____."},
+  {id:5,chapter:"Chapter 1",q:"When should Trip Leaders establish the first group reunion?"},
+  {id:6,chapter:"Chapter 1",q:"What is the name and number of the chapter that helps with handling cliques?"},
+  {id:7,chapter:"Chapter 1",q:"When should you change room assignments?"},
+  {id:8,chapter:"Chapter 1",q:"TRUE/FALSE – One of the biggest factors in the builder's conversion is belonging to a 'positive peer group'"},
+  {id:9,chapter:"Chapter 1",q:"What are two ways you as a Trip Leader can help create a positive peer group BEFORE the trip?"},
+  {id:10,chapter:"Chapter 1",q:"What are some ways you can continue facilitating a positive peer group after the trip?"},
+  {id:11,chapter:"Chapter 1",q:"What are THREE ways you can prevent cliques forming?"},
+  {id:12,chapter:"Chapter 1",q:"Who can you mirror a positive peer group with before, during, and after your trip?"},
+  {id:13,chapter:"Chapter 1",q:"What can you do as a Trip Leader when cliques still form?"},
+  {id:14,chapter:"Chapter 2 & Appendix A",q:"What is your number one priority as a Trip Leader?"},
+  {id:15,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: It is ok to have contact with parents during the trip."},
+  {id:16,chapter:"Chapter 2 & Appendix A",q:"If you receive communication from a parent during the trip, what do you do?"},
+  {id:17,chapter:"Chapter 2 & Appendix A",q:"Who do you need to share your location with before your trip?"},
+  {id:18,chapter:"Chapter 2 & Appendix A",q:"In Safety & Preparation, name three of the five people you rely on."},
+  {id:19,chapter:"Chapter 2 & Appendix A",q:"What does the handbook say if you feel prompted to break a rule?"},
+  {id:20,chapter:"Chapter 2 & Appendix A",q:"What is the most stressful and dangerous place on an HXP trip?"},
+  {id:21,chapter:"Chapter 2 & Appendix A",q:"Where are HXP groups most visible and vulnerable?"},
+  {id:22,chapter:"Chapter 2 & Appendix A",q:"What is the most important thing to do at the start of every day?"},
+  {id:23,chapter:"Chapter 2 & Appendix A",q:"Where should you give a mini-training on the Rule of 3 before Builder Briefing?"},
+  {id:24,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: It's okay to brush your teeth with tap water internationally."},
+  {id:25,chapter:"Chapter 2 & Appendix A",q:"What are two reasons loose-fitting pants and closed-toe shoes are required?"},
+  {id:26,chapter:"Chapter 2 & Appendix A",q:"Second only to lodging, where do Builders feel most comfortable and unsafe?"},
+  {id:27,chapter:"Chapter 2 & Appendix A",q:"Builders should never work on or above _____."},
+  {id:28,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: Power tools are allowed only on Mainland trips."},
+  {id:29,chapter:"Chapter 2 & Appendix A",q:"What are the rules about changing in shared spaces?"},
+  {id:30,chapter:"Chapter 2 & Appendix A",q:"What do you do with an unused bedroom in lodging?"},
+  {id:31,chapter:"Chapter 2 & Appendix A",q:"What is the minimum number of people per room?"},
+  {id:32,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: You can invite locals into your lodging for activities."},
+  {id:33,chapter:"Chapter 2 & Appendix A",q:"What should you do with dangerous items in lodging?"},
+  {id:34,chapter:"Chapter 2 & Appendix A",q:"Do not go running unless pre-cleared by whom?"},
+  {id:35,chapter:"Chapter 2 & Appendix A",q:"What is 'the most critical and most important rule'?"},
+  {id:36,chapter:"Chapter 2 & Appendix A",q:"What phrase do Builders use to report sexual harassment?"},
+  {id:37,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: Wrestling or tickling is allowed in lodging."},
+  {id:38,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: It is okay to make a group chat with all of the parents as long as it is not used during the trip."},
+  {id:39,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: You are not allowed to spend time 1 on 1 with a builder after the trip."},
+  {id:40,chapter:"Chapter 2 & Appendix A",q:"What appendix contains the HXP Emergency Plan Flow Chart?"},
+  {id:41,chapter:"Chapter 2 & Appendix A",q:"If there is a catastrophic event (natural disaster, civil unrest, extreme weather), what is the first thing you should do?"},
+  {id:42,chapter:"Chapter 3 & Appendix B",q:"According to the toolkit, what happens when you have high love and high expectations?"},
+  {id:43,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: Withdrawal/deposit refers to money."},
+  {id:44,chapter:"Chapter 3 & Appendix B",q:"Name three Dealbreakers."},
+  {id:45,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: You and your Co decide to send Builders home."},
+  {id:46,chapter:"Chapter 3 & Appendix B",q:"For dress code, how should Trip Leaders dress?"},
+  {id:47,chapter:"Chapter 3 & Appendix B",q:"On an HXP trip, what do your words/actions represent?"},
+  {id:48,chapter:"Chapter 3 & Appendix B",q:"What day are swimming, napping, shopping never allowed?"},
+  {id:49,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: If arriving late the first night, still do Builder Briefing."},
+  {id:50,chapter:"Chapter 3 & Appendix B",q:"According to the toolkit, what is the key to Builder Briefing?"},
+  {id:51,chapter:"Chapter 3 & Appendix B",q:"Fill in the blank: 'The _____, if done right, will transform your trip dynamic.'"},
+  {id:52,chapter:"Chapter 3 & Appendix B",q:"What should you do to emphasize 'the why' behind the rules?"},
+  {id:53,chapter:"Chapter 3 & Appendix B",q:"What script must be read EXACTLY during Builder Briefing?"},
+  {id:54,chapter:"Chapter 3 & Appendix B",q:"If a Builder breaks a Dealbreaker, who pays for their flight home?"},
+  {id:55,chapter:"Chapter 3 & Appendix B",q:"What is HXP's health code Dealbreaker based on?"},
+  {id:56,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: Special circumstances allow Builders to keep phones."},
+  {id:57,chapter:"Chapter 3 & Appendix B",q:"Are shoulder massages between Builders allowed?"},
+  {id:58,chapter:"Chapter 3 & Appendix B",q:"What conversations are absolutely off-limits?"},
+  {id:59,chapter:"Chapter 3 & Appendix B",q:"About how many Builders are sent home each year?"},
+  {id:60,chapter:"Chapter 3 & Appendix B",q:"What must everyone wear in the shower?"},
+  {id:61,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: Fruits like strawberries are okay to eat."},
+  {id:62,chapter:"Chapter 3 & Appendix B",q:"When is it okay to share medication on a trip?"},
+  {id:63,chapter:"Chapter 3 & Appendix B",q:"What is the required 'lights out' time?"},
+  {id:64,chapter:"Chapter 3 & Appendix B",q:"What is the expectation for how we leave every place?"},
+  {id:65,chapter:"Chapter 3 & Appendix B",q:"What does POTA stand for?"},
+  {id:66,chapter:"Chapters 4, 5, 12 & Appendix C",q:"How often should expenses be recorded?"},
+  {id:67,chapter:"Chapters 4, 5, 12 & Appendix C",q:"TRUE or FALSE: Receipts aren't needed if logged."},
+  {id:68,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the daily ATM withdrawal limit?"},
+  {id:69,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What funds pay for souvenirs/snacks?"},
+  {id:70,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Which is NOT covered financially by HXP?"},
+  {id:71,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What can too much downtime lead to? (pg 63)"},
+  {id:72,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Why is fun important on HXP trips? (pg 62)"},
+  {id:73,chapter:"Chapters 4, 5, 12 & Appendix C",q:"TRUE/FALSE – you and your co can choose whether to do the pre-trip builder calls together or separately."},
+  {id:74,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What's one thing you should do on the calls to remember unique things about your builders?"},
+  {id:75,chapter:"Chapters 4, 5, 12 & Appendix C",q:"If a Builder reaches out to tell you they are no longer going on the trip, what should you do?"},
+  {id:76,chapter:"Chapters 4, 5, 12 & Appendix C",q:"How long should 2 on 1's be?"},
+  {id:77,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What will be your most valuable phrase in 2 on 1's?"},
+  {id:78,chapter:"Chapters 4, 5, 12 & Appendix C",q:"In 2 on 1's, ____ more than you talk."},
+  {id:79,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Where should 2 on 1's take place?"},
+  {id:80,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What should you NEVER use 2 on 1 time for?"},
+  {id:81,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Who should be on the pre-trip Builder calls?"},
+  {id:82,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What will you absolutely want to have memorized before your trip to help Builders feel loved?"},
+  {id:83,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Loving your Builders begins with _______."},
+  {id:84,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the first step to scheduling calls with Builders before the trip?"},
+  {id:85,chapter:"Chapters 4, 5, 12 & Appendix C",q:"PRO TIP: If meeting as a group before the trip, what should you do so all Builders can ask questions?"},
+  {id:86,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Where can you access Builder surveys completed before the trip?"},
+  {id:87,chapter:"Chapters 4, 5, 12 & Appendix C",q:"TRUE or FALSE: The bus is a good time to take a nap if you need it."},
+  {id:88,chapter:"Chapters 4, 5, 12 & Appendix C",q:"How long should each 2-on-1 typically last?"},
+  {id:89,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the non-negotiable for the first 10 minutes of every day as a Trip Leader?"},
+  {id:90,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What must you do before starting 2-on-1s on the worksite?"},
+  {id:91,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the most amount of 2-on-1s you can do in a day?"},
+  {id:92,chapter:"Chapters 4, 5, 12 & Appendix C",q:"As a Trip Leader, who is the primary focus of your service?"},
+  {id:93,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Where do you go for games and activities?"},
+  {id:94,chapter:"Chapters 6 & 17",q:"What is the framework for the morning devotional schedule?"},
+  {id:95,chapter:"Chapters 6 & 17",q:"How long should Morning Devotion take?"},
+  {id:96,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: Trip Leaders are expected to create their own Morning Devotion lessons."},
+  {id:97,chapter:"Chapters 6 & 17",q:"What is the framework for the evening devotion schedule?"},
+  {id:98,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: Evening activities take priority over Evening Devotion."},
+  {id:99,chapter:"Chapters 6 & 17",q:"How many minutes should Evening Devotion take?"},
+  {id:100,chapter:"Chapters 6 & 17",q:"What 5-minute piece helps Builders transition into Evening Devotion?"},
+  {id:101,chapter:"Chapters 6 & 17",q:"During Evening Devotion, give one way to help a Builder who struggles sharing."},
+  {id:102,chapter:"Chapters 6 & 17",q:"What part of Evening Devotion helps Builders recognize the hand of God?"},
+  {id:103,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: One of HXP's goals is to help Builders prepare to serve missions."},
+  {id:104,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: Trip Leaders should avoid mission stories."},
+  {id:105,chapter:"Chapters 6 & 17",q:"Fill in the blank: Be careful not to overemphasize the _____ of a mission."},
+  {id:106,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: If a temple is closed, your trip skips the temple visit."},
+  {id:107,chapter:"Chapters 6 & 17",q:"When should you ask Builders if they plan to enter the temple?"},
+  {id:108,chapter:"Chapters 6 & 17",q:"What is key in creating a powerful experience for Builders who can't enter the temple?"},
+  {id:109,chapter:"Chapters 6 & 17",q:"With your Builders, what's far better than having the right answers?"},
+  {id:110,chapter:"Chapters 6 & 17",q:"What important rule must be followed while waiting outside the temple?"},
+  {id:111,chapter:"Chapters 7, 8 & Appendix D",q:"What Trip Leader checklist item could save lives?"},
+  {id:112,chapter:"Chapters 7, 8 & Appendix D",q:"Where can you review Builders' health information before the trip?"},
+  {id:113,chapter:"Chapters 7, 8 & Appendix D",q:"TRUE or FALSE: A Builder's medical treatment plan depends on the Trip Leader."},
+  {id:114,chapter:"Chapters 7, 8 & Appendix D",q:"Found in Chapter 7, what is the first step to keeping Builders healthy?"},
+  {id:115,chapter:"Chapters 7, 8 & Appendix D",q:"TRUE or FALSE: You may pet animals if they are not strays."},
+  {id:116,chapter:"Chapters 7, 8 & Appendix D",q:"Name three symptoms that define an ill traveler per the CDC."},
+  {id:117,chapter:"Chapters 7, 8 & Appendix D",q:"When should Trip Leaders have 'the poop talk'?"},
+  {id:118,chapter:"Chapters 7, 8 & Appendix D",q:"If a Builder needs medical attention, who do you call first?"},
+  {id:119,chapter:"Chapters 7, 8 & Appendix D",q:"How many Trip Leaders go to the hospital with a Builder?"},
+  {id:120,chapter:"Chapters 7, 8 & Appendix D",q:"When must your First Aid Kit and epi-pen be with you?"},
+  {id:121,chapter:"Chapters 7, 8 & Appendix D",q:"Where should your First Aid Kit be kept at night?"},
+  {id:122,chapter:"Chapters 7, 8 & Appendix D",q:"What is the main reason loose-fitting pants and closed-toe shoes are required?"},
+  {id:123,chapter:"Chapters 7, 8 & Appendix D",q:"What percentage of high school students report emotional abuse at home?"},
+  {id:124,chapter:"Chapters 7, 8 & Appendix D",q:"Where can you find medical scenarios and criteria?"},
+  {id:125,chapter:"Chapters 7, 8 & Appendix D",q:"What does Appendix D cover?"},
+  {id:126,chapter:"Chapters 7, 8 & Appendix D",q:"What are grounding techniques/square breathing used for?"},
+  {id:127,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Your job on the worksite is to be the hardest worker."},
+  {id:128,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Trip Leaders should bring vendor concerns to their Experience Designer."},
+  {id:129,chapter:"Chapters 9, 10 & 19",q:"What is the role of the foremen on the worksite?"},
+  {id:130,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Foremen are paid less when supervising."},
+  {id:131,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Quantity of work matters more than quality."},
+  {id:132,chapter:"Chapters 9, 10 & 19",q:"If foremen say redo the work, how should you respond?"},
+  {id:133,chapter:"Chapters 9, 10 & 19",q:"Who plays the key role in coordinating ward/branch activities?"},
+  {id:134,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Ward members can be assigned tasks involving money."},
+  {id:135,chapter:"Chapters 9, 10 & 19",q:"Who are you permitted to visit since you don't have missionary visas?"},
+  {id:136,chapter:"Chapters 9, 10 & 19",q:"Why do we split into four groups for FHE/member visits?"},
+  {id:137,chapter:"Chapters 9, 10 & 19",q:"Under what conditions can you buy goods at the church?"},
+  {id:138,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Conservative dress standards are about church modesty."},
+  {id:139,chapter:"Chapters 9, 10 & 19",q:"What must you explain early about your project?"},
+  {id:140,chapter:"Chapters 9, 10 & 19",q:"What term describes shallow, harmful humanitarian work?"},
+  {id:141,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Builders can throw away shoes in-country."},
+  {id:142,chapter:"Chapters 9, 10 & 19",q:"Name two of HXP's sustainable policies."},
+  {id:143,chapter:"Chapters 9, 10 & 19",q:"What is the rule for photos with locals?"},
+  {id:144,chapter:"Chapters 9, 10 & 19",q:"What should Builders wear to the airport?"},
+  {id:145,chapter:"Chapters 9, 10 & 19",q:"How many hours before an international flight should your group arrive?"},
+  {id:146,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: The group meetup spot should be after security."},
+  {id:147,chapter:"Chapters 9, 10 & 19",q:"If it comes down to bags or the flight, what do you do?"},
+  {id:148,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Each Builder checks themselves in individually."},
+  {id:149,chapter:"Chapters 9, 10 & 19",q:"What can long layovers or delays be a great opportunity for?"},
+  {id:150,chapter:"Chapters 9, 10 & 19",q:"Tell Builders to designate one spot in their bag for _____."},
+  {id:151,chapter:"Chapters 9, 10 & 19",q:"When do you collect Builders' phones for digital detox?"},
+  {id:152,chapter:"Chapters 9, 10 & 19",q:"As soon as you get off the plane, what should Builders check for?"},
+  {id:153,chapter:"Chapters 9, 10 & 19",q:"When is your trip officially over?"},
+  {id:154,chapter:"Chapters 9, 10 & 19",q:"Who do you @ in WhatsApp when the entire group has landed?"},
+  {id:155,chapter:"Chapters 13, 15 & Appendix E",q:"What should you always do with your Co when making trip-related decisions?"},
+  {id:156,chapter:"Chapters 13, 15 & Appendix E",q:"What Co-dynamic should be avoided?"},
+  {id:157,chapter:"Chapters 13, 15 & Appendix E",q:"What objective should ultimately unite you and your Co?"},
+  {id:158,chapter:"Chapters 13, 15 & Appendix E",q:"In the toolkit, name two best practices to strengthen Co-dynamics."},
+  {id:159,chapter:"Chapters 13, 15 & Appendix E",q:"What is the recommended length for a Nightly Huddle with your co?"},
+  {id:160,chapter:"Chapters 13, 15 & Appendix E",q:"What is the main purpose of a Parent Builder?"},
+  {id:161,chapter:"Chapters 13, 15 & Appendix E",q:"Name three of the eight roles of Parent Builders."},
+  {id:162,chapter:"Chapters 13, 15 & Appendix E",q:"TRUE or FALSE: A Parent Builder may stay behind with only their own sick child."},
+  {id:163,chapter:"Chapters 13, 15 & Appendix E",q:"What are the three main goals of Nightly Huddle? (pg 250)"},
+  {id:164,chapter:"Chapters 13, 15 & Appendix E",q:"How many nights do you do Nightly Huddle?"},
+  {id:165,chapter:"Chapters 13, 15 & Appendix E",q:"What should you ask Parent Builders to be extra aware of during Nightly Huddle?"},
+  {id:166,chapter:"Chapters 13, 15 & Appendix E",q:"What appendix outlines the Nightly Huddle? (pg 250)"},
+  {id:167,chapter:"Chapters 13, 15 & Appendix E",q:"When should the Parent Builder Huddle take place?"},
+  {id:168,chapter:"Chapters 11, 14 & 16",q:"When are we most worried about rule-breaking?"},
+  {id:169,chapter:"Chapters 11, 14 & 16",q:"TRUE or FALSE: Do Builder Briefing if arriving very late the first night."},
+  {id:170,chapter:"Chapters 11, 14 & 16",q:"What is the final special devotional called?"},
+  {id:171,chapter:"Chapters 11, 14 & 16",q:"What is the action plan that prevents slipping back into old habits?"},
+  {id:172,chapter:"Chapters 11, 14 & 16",q:"TRUE OR FALSE: Builders do the post-trip survey after they get their phones back."},
+  {id:173,chapter:"Chapters 11, 14 & 16",q:"Who's phone(s) do the builders do the post-trip survey on?"},
+  {id:174,chapter:"Chapters 11, 14 & 16",q:"Name two situations when you must absolutely call the office."},
+  {id:175,chapter:"Chapters 11, 14 & 16",q:"TRUE or FALSE: In an emergency, the first person you contact is your Experience Designer."},
+  {id:176,chapter:"Chapters 11, 14 & 16",q:"What is the Trip Leader Support Line phone number?"},
+  {id:177,chapter:"Chapters 11, 14 & 16",q:"Who helps coordinate logistics and communication in-country?"},
+  {id:178,chapter:"Chapters 11, 14 & 16",q:"TRUE or FALSE: HXP/Trip Leaders pay medical bills if a Builder goes to the doctor."},
+  {id:179,chapter:"Chapters 11, 14 & 16",q:"If you have vendor problems, who do you contact first?"},
+  {id:180,chapter:"Chapters 11, 14 & 16",q:"Where can you find emergency medical and protocol breakdowns?"},
+  {id:181,chapter:"Chapters 11, 14 & 16",q:"What mindset focuses on optimizing opportunities rather than creating new ones?"},
+  {id:182,chapter:"Chapters 11, 14 & 16",q:"In the Rainstorms chapter, what does 'twbm' stand for?"},
+  {id:183,chapter:"Chapters 11, 14 & 16",q:"Data has shown that Trip Leaders who _____ had an easier transition."},
+  {id:184,chapter:"Chapters 11, 14 & 16",q:"What phrase should be erased from your vocabulary on repeat trips?"},
+  {id:185,chapter:"Chapters 11, 14 & 16",q:"If doing two trips, what should you do daily for your other group?"},
+  {id:186,chapter:"Chapters 11, 14 & 16",q:"What is important to avoid when leaving your first group?"},
+  {id:187,chapter:"Chapters 11, 14 & 16",q:"On whose phone will the builders take the post-trip survey?"},
+  {id:188,chapter:"Chapters 11, 14 & 16",q:"When on the trip will the builders take the post trip survey?"},
+];
+
+// ═══════════════════════════════════════════════════
+//  CHAPTER METADATA
+// ═══════════════════════════════════════════════════
+
+const CHAPTERS = [...new Set(QUESTIONS.map(q => q.chapter))];
+
+const CH_STYLES = [
+  { bg:'#8B4A2B', fg:'#F5F0E8', rot:-1.5 },
+  { bg:'#B07020', fg:'#F5F0E8', rot: 1.2 },
+  { bg:'#4a5e2e', fg:'#F5F0E8', rot:-0.9 },
+  { bg:'#5f7a58', fg:'#F5F0E8', rot: 1.5 },
+  { bg:'#7a3c22', fg:'#F5F0E8', rot:-1.2 },
+  { bg:'#C8862A', fg:'#2C2416', rot: 0.8 },
+  { bg:'#3d5530', fg:'#F5F0E8', rot:-1.5 },
+  { bg:'#6b7e5e', fg:'#F5F0E8', rot: 1.1 },
+  { bg:'#6d3820', fg:'#F5F0E8', rot:-0.7 },
+];
+
+function chStyle(ch) {
+  const i = CHAPTERS.indexOf(ch);
+  return CH_STYLES[i % CH_STYLES.length];
+}
+
+// ═══════════════════════════════════════════════════
+//  LOCAL STORAGE HELPERS
+// ═══════════════════════════════════════════════════
+
+function getStatus(id) { return localStorage.getItem('hxp_s_' + id) || 'unseen'; }
+function setStatus(id, s) { localStorage.setItem('hxp_s_' + id, s); }
+function getNotes(id)  { return localStorage.getItem('hxp_n_' + id) || ''; }
+function setNotes(id, v) { localStorage.setItem('hxp_n_' + id, v); }
+
+// ═══════════════════════════════════════════════════
+//  APP STATE
+// ═══════════════════════════════════════════════════
+
+const ST = {
+  chFilter: 'all',
+  huntOnly: false,
+  drill: {
+    mode: null, section: 'all',
+    queue: [], qi: 0, correct: 0, attempted: 0,
+    answer: '', submitted: false, notesOn: false, done: false,
+    playerId: sessionStorage.getItem('hxp_player_id') || '',
+    playerName: localStorage.getItem('hxp_player_name') || '',
+    roomCode: '', room: null, isHost: false, groupAnswer: '', groupSubmitted: false,
+    bc: null, pollTick: null, lastRoomUpdated: 0
+  }
+};
+
+if (!ST.drill.playerId) {
+  ST.drill.playerId = 'p_' + Math.random().toString(36).slice(2, 10);
+  sessionStorage.setItem('hxp_player_id', ST.drill.playerId);
+}
+
+// ═══════════════════════════════════════════════════
+//  GRAIN TEXTURE
+// ═══════════════════════════════════════════════════
+
+(function buildGrain() {
+  try {
+    const c = document.createElement('canvas');
+    c.width = c.height = 256;
+    const ctx = c.getContext('2d');
+    const img = ctx.createImageData(256, 256);
+    const d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = Math.random() * 255 | 0;
+      d[i] = d[i+1] = d[i+2] = v; d[i+3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+    document.getElementById('grain').style.backgroundImage = 'url(' + c.toDataURL() + ')';
+  } catch(e) {}
+})();
+
+// ═══════════════════════════════════════════════════
+//  UTILITIES
+// ═══════════════════════════════════════════════════
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function stats() {
+  let l=0, h=0, u=0;
+  QUESTIONS.forEach(q => {
+    const s = getStatus(q.id);
+    if (s==='learned') l++;
+    else if (s==='hunting') h++;
+    else u++;
+  });
+  return {l, h, u, t: QUESTIONS.length};
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.random()*(i+1)|0;
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// ═══════════════════════════════════════════════════
+//  STUDY MODE — RENDER
+// ═══════════════════════════════════════════════════
+
+function renderSummary() {
+  const {l,h,u,t} = stats();
+  document.getElementById('summary-bar').innerHTML = `
+    <div class="s-stat s-learned"><span class="s-num">${l}</span>learned</div>
+    <div class="s-divider"></div>
+    <div class="s-stat s-hunting"><span class="s-num">${h}</span>hunting</div>
+    <div class="s-divider"></div>
+    <div class="s-stat s-unseen"><span class="s-num">${u}</span>unseen</div>
+    <div class="s-divider"></div>
+    <div class="s-stat"><span class="s-num">${t}</span>total</div>
+    <button class="hunt-filter-btn${ST.huntOnly?' active':''}" onclick="toggleHunt()">
+      ${ST.huntOnly ? '✕ All Questions' : '⊕ Hunting List'}
+    </button>`;
+}
+
+function renderSidebar() {
+  const {l,t} = stats();
+  const totPct = Math.round(l/t*100);
+  let html = `<div class="sb-item${ST.chFilter==='all'?' active':''}" data-ch="all">
+    <div class="sb-name">All Questions</div>
+    <div class="sb-prog-row">
+      <div class="sb-prog-track"><div class="sb-prog-fill" style="width:${totPct}%"></div></div>
+      <span class="sb-pct">${totPct}%</span>
+    </div></div>`;
+
+  CHAPTERS.forEach(ch => {
+    const qs = QUESTIONS.filter(q => q.chapter === ch);
+    const lc = qs.filter(q => getStatus(q.id)==='learned').length;
+    const pct = Math.round(lc/qs.length*100);
+    const active = ST.chFilter === ch;
+    html += `<div class="sb-item${active?' active':''}" data-ch="${esc(ch)}">
+      <div class="sb-name">${esc(ch)}</div>
+      <div class="sb-prog-row">
+        <div class="sb-prog-track"><div class="sb-prog-fill" style="width:${pct}%"></div></div>
+        <span class="sb-pct">${pct}%</span>
+      </div></div>`;
+  });
+
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = html;
+  sb.querySelectorAll('.sb-item').forEach(el => {
+    el.addEventListener('click', () => setChFilter(el.dataset.ch));
+  });
+}
+
+function renderCards() {
+  let qs = QUESTIONS;
+  if (ST.chFilter !== 'all') qs = qs.filter(q => q.chapter === ST.chFilter);
+  if (ST.huntOnly) qs = qs.filter(q => getStatus(q.id) === 'hunting');
+
+  if (!qs.length) {
+    document.getElementById('q-main').innerHTML =
+      `<div class="no-results">No questions match the current filter.</div>`;
+    return;
+  }
+
+  document.getElementById('q-main').innerHTML = qs.map(q => cardHTML(q)).join('');
+}
+
+function cardHTML(q) {
+  const st = getStatus(q.id);
+  const cs = chStyle(q.chapter);
+  const notes = getNotes(q.id);
+  return `<div class="q-card st-${st}" id="card-${q.id}">
+    <div class="card-top">
+      <span class="q-num">#${q.id}</span>
+      <span class="ch-badge" style="background:${cs.bg};color:${cs.fg};transform:rotate(${cs.rot}deg)">${esc(q.chapter)}</span>
+    </div>
+    <div class="q-text">${esc(q.q)}</div>
+    <div class="card-btns">
+      <button class="c-btn hunt${st==='hunting'?' on':''}" onclick="mark(${q.id},'hunting')">Mark: Hunting</button>
+      <button class="c-btn lrn${st==='learned'?' on':''}"  onclick="mark(${q.id},'learned')">Mark: Learned</button>
+      <button class="c-btn rst"                             onclick="mark(${q.id},'unseen')">Reset</button>
+    </div>
+    <div class="notes-wrap">
+      <textarea class="notes-ta" id="nta-${q.id}" rows="2"
+        placeholder="Answer / notes from your book (auto-saves on blur)..."
+      >${esc(notes)}</textarea>
+      <span class="save-flash" id="flash-${q.id}">Saved ✓</span>
+    </div>
+  </div>`;
+}
+
+// ── STUDY EVENT HANDLERS ──
+
+// Event delegation for textareas (blur doesn't bubble, use capture)
+document.getElementById('q-main').addEventListener('blur', e => {
+  if (e.target.classList.contains('notes-ta')) {
+    const id = +e.target.id.replace('nta-','');
+    setNotes(id, e.target.value);
+    const f = document.getElementById('flash-'+id);
+    if (f) { f.classList.add('show'); setTimeout(()=>f.classList.remove('show'), 2000); }
+  }
+}, true);
+
+function flushActiveTextarea() {
+  const a = document.activeElement;
+  if (a && a.classList && a.classList.contains('notes-ta')) {
+    const id = +a.id.replace('nta-','');
+    setNotes(id, a.value);
+  }
+}
+
+function mark(id, status) {
+  flushActiveTextarea();
+  setStatus(id, status);
+  // Update card in-place
+  const card = document.getElementById('card-'+id);
+  if (card) {
+    card.className = 'q-card st-'+status;
+    const h = card.querySelector('.hunt');
+    const l = card.querySelector('.lrn');
+    if (h) h.className = 'c-btn hunt'+(status==='hunting'?' on':'');
+    if (l) l.className = 'c-btn lrn' +(status==='learned'?' on':'');
+  }
+  // If hunting-only filter and card is no longer hunting, hide it
+  if (ST.huntOnly && status !== 'hunting' && card) {
+    card.style.transition = 'opacity 0.3s';
+    card.style.opacity = '0';
+    setTimeout(()=>{ if(card.parentNode) card.parentNode.removeChild(card); }, 320);
+  }
+  renderSummary();
+  renderSidebar();
+}
+
+function setChFilter(ch) {
+  ST.chFilter = ch;
+  ST.huntOnly = false;
+  renderSummary();
+  renderSidebar();
+  renderCards();
+}
+
+function toggleHunt() {
+  ST.huntOnly = !ST.huntOnly;
+  if (ST.huntOnly) ST.chFilter = 'all';
+  renderSummary();
+  renderSidebar();
+  renderCards();
+}
+
+// ═══════════════════════════════════════════════════
+//  DRILL MODE
+// ═══════════════════════════════════════════════════
+
+function initDrill() {
+  const d = ST.drill;
+  Object.assign(d, {
+    mode: null, queue: [], qi: 0, correct: 0, attempted: 0,
+    answer: '', submitted: false, notesOn: false, done: false,
+    groupAnswer: '', groupSubmitted: false
+  });
+  renderDrillHeader();
+  renderDrillContent();
+}
+
+function renderDrillHeader() {
+  const d = ST.drill;
+  const scope = d.section === 'all' ? 'All sections' : d.section;
+  const score = d.mode === 'solo' ? `${d.correct}/${d.attempted}` : `${sectionQuestions().length}`;
+
+  document.getElementById('drill-header').innerHTML = `
+    <div class="drill-header">
+      <div class="solo-score-badge">
+        <span>${esc(score)}</span> ${d.mode === 'solo' ? 'solo score' : 'questions'}
+      </div>
+      <div class="drill-meta">
+        <div class="drill-title">Drill Mode</div>
+        <div class="drill-sub">${esc(scope)} &nbsp;·&nbsp; every question included</div>
+      </div>
+      ${d.mode ? `<button class="solo-quit-btn" onclick="initDrill()">Change mode</button>` : ''}
+    </div>`;
+}
+
+function renderDrillContent() {
+  const d = ST.drill;
+  const el = document.getElementById('drill-content');
+
+  if (!d.mode) {
+    renderDrillGate(el);
+    return;
+  }
+
+  if (d.mode === 'solo') renderSoloDrill(el);
+  else renderGroupDrill(el);
+}
+
+function sectionQuestions() {
+  return QUESTIONS.filter(q => ST.drill.section === 'all' || q.chapter === ST.drill.section);
+}
+
+function renderDrillGate(el) {
+  const d = ST.drill;
+  const count = sectionQuestions().length;
+  const chapters = [`<button class="ch-pill${d.section==='all'?' on':''}" onclick="setDrillSection('all')">All <span>${QUESTIONS.length}</span></button>`]
+    .concat(CHAPTERS.map((ch, i) => {
+      const n = QUESTIONS.filter(q => q.chapter === ch).length;
+      return `<button class="ch-pill${d.section===ch?' on':''}" onclick="setDrillSection(${i})">${esc(ch)} <span>${n}</span></button>`;
+    })).join('');
+
+  el.innerHTML = `<div class="drill-gate">
+    <div class="drill-gate-title">Choose your drill</div>
+    <div class="drill-gate-sub">Drill mode now uses every question in the section you choose.</div>
+    <div class="mode-cards">
+      <div class="mode-card" onclick="startSoloDrill()">
+        <div class="mode-card-icon">◉</div>
+        <div class="mode-card-title">Solo Mode</div>
+        <div class="mode-card-desc">Type an answer, submit, reveal your saved notes, then self-check.</div>
+      </div>
+      <div class="mode-card" onclick="showGroupSetup()">
+        <div class="mode-card-icon">◈</div>
+        <div class="mode-card-title">Online Group Mode</div>
+        <div class="mode-card-desc">2+ ready players race to answer while the judge rotates each question.</div>
+      </div>
+    </div>
+    <div class="ch-selector-title">Section</div>
+    <div class="ch-pills">${chapters}</div>
+    <button class="drill-start-btn" onclick="startSoloDrill()">Start Solo with ${count} Questions</button>
+  </div>`;
+}
+
+function setDrillSection(v) {
+  ST.drill.section = v === 'all' ? 'all' : CHAPTERS[v];
+  renderDrillHeader();
+  renderDrillContent();
+}
+
+function startSoloDrill() {
+  const d = ST.drill;
+  Object.assign(d, {
+    mode: 'solo', queue: shuffle(sectionQuestions()), qi: 0,
+    correct: 0, attempted: 0, answer: '', submitted: false,
+    notesOn: false, done: false
+  });
+  renderDrillHeader();
+  renderDrillContent();
+}
+
+function renderSoloDrill(el) {
+  const d = ST.drill;
+  if (d.done || d.qi >= d.queue.length) {
+    const pct = d.attempted > 0 ? Math.round(d.correct/d.attempted*100) : 0;
+    el.innerHTML = `<div class="drill-msg">
+      <h3>Solo Round Complete</h3>
+      <div class="drill-final-score">${d.correct} / ${d.attempted}</div>
+      <p style="font-size:0.73rem;color:var(--ink2);margin-bottom:24px">
+        ${pct}% accuracy &nbsp;·&nbsp; ${d.attempted} questions answered
+      </p>
+      <button class="action-link-btn" onclick="startSoloDrill()">Drill This Section Again</button>
+    </div>`;
+    return;
+  }
+
+  const q = d.queue[d.qi];
+  const cs = chStyle(q.chapter);
+  const notes = getNotes(q.id);
+  const dis = d.submitted ? 'disabled' : '';
+  const canSubmit = d.answer.trim().length > 0;
+
+  el.innerHTML = `<div class="drill-card">
+    <div class="solo-header">
+      <div class="solo-score-badge"><span>${d.correct}/${d.attempted}</span> correct</div>
+      <div class="solo-prog">${d.qi+1} / ${d.queue.length}</div>
+    </div>
+    <div class="drill-card-top">
+      <span class="q-num">#${q.id}</span>
+      <span class="ch-badge" style="background:${cs.bg};color:${cs.fg};transform:rotate(${cs.rot}deg)">${esc(q.chapter)}</span>
+    </div>
+    <div class="drill-q-text">${esc(q.q)}</div>
+    <div class="solo-answer-area">
+      <div class="solo-answer-label">Your answer</div>
+      <textarea class="solo-answer-ta" id="solo-answer" rows="4" ${dis}
+        oninput="ST.drill.answer=this.value;document.getElementById('solo-submit').disabled=!this.value.trim()"
+        placeholder="Type your answer before checking...">${esc(d.answer)}</textarea>
+    </div>
+    <button class="solo-submit-btn" id="solo-submit" onclick="submitSoloAnswer()" ${canSubmit && !d.submitted ? '' : 'disabled'}>Submit Answer</button>
+    <div class="solo-compare${d.submitted?' show':''}">
+      <div class="solo-notes-box">
+        <div class="solo-notes-lbl">Your submitted answer</div>
+        ${esc(d.answer)}
+      </div>
+      <div class="solo-notes-box${!notes?' empty':''}">
+        <div class="solo-notes-lbl">Saved notes / answer key</div>
+        ${notes ? esc(notes) : '(no notes saved for this question)'}
+      </div>
+      <div class="solo-grade-btns">
+        <button class="solo-grade-btn correct" onclick="gradeSolo(true)">Correct</button>
+        <button class="solo-grade-btn wrong" onclick="gradeSolo(false)">Missed</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function submitSoloAnswer() {
+  const d = ST.drill;
+  const ta = document.getElementById('solo-answer');
+  if (ta) d.answer = ta.value;
+  if (!d.answer.trim()) return;
+  d.submitted = true;
+  renderDrillContent();
+}
+
+function gradeSolo(correct) {
+  const d = ST.drill;
+  if (!d.submitted) return;
+  d.attempted++;
+  if (correct) d.correct++;
+  else {
+    const q = d.queue[d.qi];
+    setStatus(q.id, 'hunting');
+  }
+  d.qi++;
+  d.answer = '';
+  d.submitted = false;
+  if (d.qi >= d.queue.length) d.done = true;
+  renderDrillHeader();
+  renderDrillContent();
+}
+
+function showGroupSetup() {
+  const d = ST.drill;
+  d.mode = 'group';
+  d.room = null;
+  d.roomCode = '';
+  d.isHost = false;
+  renderDrillContent();
+}
+
+function renderGroupDrill(el) {
+  const d = ST.drill;
+  if (!d.room) {
+    const savedName = esc(d.playerName);
+    el.innerHTML = `<div class="drill-card">
+      <div class="drill-gate-title">Group room</div>
+      <div class="drill-gate-sub">Rooms sync between open clients on this site. Create a room or join with a code.</div>
+      <div class="input-group">
+        <div class="input-label">Your name</div>
+        <input class="txt-input" id="player-name" value="${savedName}" placeholder="Trip leader name">
+      </div>
+      <div class="two-btns">
+        <button class="drill-start-btn" onclick="createGroupRoom()">Create Room</button>
+        <button class="drill-start-btn" onclick="joinGroupRoom()">Join Room</button>
+      </div>
+      <div class="input-group">
+        <div class="input-label">Room code to join</div>
+        <input class="txt-input" id="room-code-input" maxlength="5" placeholder="ABCDE" style="text-transform:uppercase">
+      </div>
+    </div>`;
+    return;
+  }
+
+  renderGroupRoom(el);
+}
+
+function roomKey(code) { return 'hxp_room_' + code; }
+
+function makeRoomCode() {
+  return Math.random().toString(36).slice(2, 7).toUpperCase();
+}
+
+function readRoom(code) {
+  try { return JSON.parse(localStorage.getItem(roomKey(code)) || 'null'); }
+  catch(e) { return null; }
+}
+
+function saveRoom(room) {
+  room.updatedAt = Date.now();
+  localStorage.setItem(roomKey(room.code), JSON.stringify(room));
+  if (ST.drill.bc) ST.drill.bc.postMessage({code: room.code});
+  ST.drill.room = room;
+  ST.drill.lastRoomUpdated = room.updatedAt;
+  renderDrillHeader();
+  renderDrillContent();
+}
+
+function openRoomChannel(code) {
+  const d = ST.drill;
+  if (d.bc) d.bc.close();
+  if (d.pollTick) clearInterval(d.pollTick);
+  if ('BroadcastChannel' in window) {
+    d.bc = new BroadcastChannel('hxp_drill_' + code);
+    d.bc.onmessage = () => refreshRoom();
+  }
+  d.pollTick = setInterval(refreshRoom, 1200);
+  window.addEventListener('storage', e => {
+    if (e.key === roomKey(code)) refreshRoom();
+  });
+}
+
+function playerNameFromInput() {
+  const input = document.getElementById('player-name');
+  const name = (input && input.value.trim()) || 'Player';
+  ST.drill.playerName = name;
+  localStorage.setItem('hxp_player_name', name);
+  return name;
+}
+
+function createGroupRoom() {
+  const d = ST.drill;
+  const name = playerNameFromInput();
+  const code = makeRoomCode();
+  const player = {id:d.playerId, name, ready:false, score:0};
+  const room = {
+    code, hostId:d.playerId, section:d.section, queueIds: shuffle(sectionQuestions()).map(q => q.id),
+    started:false, done:false, qi:0, judgeIndex:0, players:[player], submissions:{}
+  };
+  d.roomCode = code;
+  d.isHost = true;
+  d.room = room;
+  openRoomChannel(code);
+  saveRoom(room);
+}
+
+function joinGroupRoom() {
+  const d = ST.drill;
+  const name = playerNameFromInput();
+  const input = document.getElementById('room-code-input');
+  const code = (input && input.value.trim().toUpperCase()) || '';
+  const room = readRoom(code);
+  if (!room) {
+    alert('Room not found. Check the code and try again.');
+    return;
+  }
+  const existing = room.players.find(p => p.id === d.playerId);
+  if (existing) existing.name = name;
+  else room.players.push({id:d.playerId, name, ready:false, score:0});
+  d.roomCode = code;
+  d.isHost = room.hostId === d.playerId;
+  d.room = room;
+  openRoomChannel(code);
+  saveRoom(room);
+}
+
+function refreshRoom() {
+  const d = ST.drill;
+  if (!d.roomCode) return;
+  const room = readRoom(d.roomCode);
+  if (!room) return;
+  if (room.updatedAt === d.lastRoomUpdated) return;
+  d.room = room;
+  d.lastRoomUpdated = room.updatedAt;
+  d.isHost = room.hostId === d.playerId;
+  renderDrillHeader();
+  renderDrillContent();
+}
+
+function currentPlayer(room) {
+  return room.players.find(p => p.id === ST.drill.playerId);
+}
+
+function currentJudge(room) {
+  if (!room.players.length) return null;
+  return room.players[room.judgeIndex % room.players.length];
+}
+
+function renderPlayers(room) {
+  return `<div class="players-list">
+    <div class="players-list-title">Players</div>
+    ${room.players.map(p => `<div class="player-row">
+      <span class="player-dot${p.ready?' ready':''}"></span>
+      <span class="player-name">${esc(p.name)}</span>
+      ${p.id===room.hostId?'<span class="player-tag host">HOST</span>':''}
+      ${p.ready?'<span class="player-tag ready-tag">READY</span>':''}
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderGroupRoom(el) {
+  const d = ST.drill;
+  const room = d.room;
+  const me = currentPlayer(room);
+  if (!me) return;
+
+  if (!room.started) {
+    const allReady = room.players.length >= 2 && room.players.every(p => p.ready);
+    el.innerHTML = `<div class="drill-card">
+      <div class="room-code-display">
+        <div class="room-code-label">Room code</div>
+        <div class="room-code-val">${esc(room.code)}</div>
+        <div class="room-code-tip">${esc(room.section === 'all' ? 'All sections' : room.section)} · ${room.queueIds.length} questions</div>
+      </div>
+      ${renderPlayers(room)}
+      <button class="ready-btn${me.ready?' on':''}" onclick="toggleReady()">${me.ready?'Ready':'Get Ready'}</button>
+      ${d.isHost ? `<button class="drill-start-btn" ${allReady?'':'disabled'} onclick="startGroupGame()">Start Race</button>` : ''}
+      <div class="conn-status ${allReady?'ok':'err'}">${allReady ? '2+ players ready. Host can start.' : 'Need 2+ players and everyone ready.'}</div>
+    </div>`;
+    return;
+  }
+
+  if (room.done || room.qi >= room.queueIds.length) {
+    el.innerHTML = `<div class="drill-msg">
+      <h3>Group Round Complete</h3>
+      ${renderScoreboard(room)}
+      <button class="action-link-btn" onclick="showGroupSetup()">New Room</button>
+    </div>`;
+    return;
+  }
+
+  renderGroupQuestion(el, room);
+}
+
+function toggleReady() {
+  const room = ST.drill.room;
+  const me = currentPlayer(room);
+  me.ready = !me.ready;
+  saveRoom(room);
+}
+
+function startGroupGame() {
+  const room = ST.drill.room;
+  if (!ST.drill.isHost) return;
+  if (room.players.length < 2 || !room.players.every(p => p.ready)) return;
+  room.started = true;
+  room.qi = 0;
+  room.judgeIndex = 0;
+  room.done = false;
+  room.submissions = {};
+  room.players.forEach(p => p.score = 0);
+  saveRoom(room);
+}
+
+function renderGroupQuestion(el, room) {
+  const q = QUESTIONS.find(x => x.id === room.queueIds[room.qi]);
+  const cs = chStyle(q.chapter);
+  const judge = currentJudge(room);
+  const me = currentPlayer(room);
+  const isJudge = judge && judge.id === ST.drill.playerId;
+  const subs = room.submissions[q.id] || {};
+  const mySub = subs[ST.drill.playerId];
+  const entries = Object.values(subs).sort((a,b) => a.ts - b.ts);
+  const allAnswerers = room.players.filter(p => p.id !== judge.id);
+  const allSubmitted = allAnswerers.length && allAnswerers.every(p => subs[p.id]);
+  const allJudged = allSubmitted && entries.every(s => s.verdict);
+  const notes = getNotes(q.id);
+
+  el.innerHTML = `<div class="drill-card">
+    <div class="group-game-hdr">
+      <div class="solo-score-badge"><span>${room.qi+1}/${room.queueIds.length}</span> question</div>
+      <span class="judge-badge${isJudge?' you-judge':''}">Judge: ${esc(judge.name)}${isJudge?' (you)':''}</span>
+    </div>
+    <div class="drill-card-top">
+      <span class="q-num">#${q.id}</span>
+      <span class="ch-badge" style="background:${cs.bg};color:${cs.fg};transform:rotate(${cs.rot}deg)">${esc(q.chapter)}</span>
+    </div>
+    <div class="drill-q-text">${esc(q.q)}</div>
+    ${isJudge ? `<div class="solo-notes-box${!notes?' empty':''}">
+      <div class="solo-notes-lbl">Saved notes / answer key</div>
+      ${notes ? esc(notes) : '(no notes saved for this question)'}
+    </div>` : renderGroupAnswerBox(mySub)}
+    <div class="submission-list">
+      <div class="players-list-title">Submissions</div>
+      ${entries.length ? entries.map((s, idx) => renderSubmission(room, s, idx, isJudge)).join('') : '<div class="conn-status">Waiting for answers...</div>'}
+    </div>
+    ${isJudge ? `<button class="next-q-btn" ${allJudged?'':'disabled'} onclick="nextGroupQuestion()">Next Question</button>` : ''}
+    ${renderScoreboard(room)}
+  </div>`;
+}
+
+function renderGroupAnswerBox(mySub) {
+  if (mySub) {
+    return `<div class="solo-notes-box">
+      <div class="solo-notes-lbl">Your submitted answer</div>
+      ${esc(mySub.answer)}
+    </div>`;
+  }
+  return `<div class="solo-answer-area">
+    <div class="solo-answer-label">Your answer</div>
+    <textarea class="solo-answer-ta" id="group-answer" rows="4" placeholder="Race answer here..."
+      oninput="document.getElementById('group-submit').disabled=!this.value.trim()"></textarea>
+    <button class="solo-submit-btn" id="group-submit" onclick="submitGroupAnswer()" disabled>Submit Answer</button>
+  </div>`;
+}
+
+function renderSubmission(room, s, idx, isJudge) {
+  const player = room.players.find(p => p.id === s.playerId) || {name:'Player'};
+  const cls = s.verdict === 'right' ? ' ok' : s.verdict === 'wrong' ? ' no' : '';
+  const points = s.verdict === 'right' ? `+${s.points}` : s.verdict === 'wrong' ? '0' : `${scoreForRank(idx)} pts`;
+  return `<div class="sub-row${cls}">
+    <div class="sub-name">${esc(player.name)}</div>
+    <div class="sub-answer">${esc(s.answer)}</div>
+    <div class="sub-order">#${idx+1} · ${points}</div>
+    ${isJudge && !s.verdict ? `<div class="verdict-btns">
+      <button class="vbtn yes" onclick="judgeSubmission('${esc(s.playerId)}', true)">✓</button>
+      <button class="vbtn no" onclick="judgeSubmission('${esc(s.playerId)}', false)">×</button>
+    </div>` : ''}
+  </div>`;
+}
+
+function scoreForRank(idx) {
+  return Math.max(100 - idx * 15, 40);
+}
+
+function submitGroupAnswer() {
+  const room = ST.drill.room;
+  const judge = currentJudge(room);
+  if (judge.id === ST.drill.playerId) return;
+  const qid = room.queueIds[room.qi];
+  const ta = document.getElementById('group-answer');
+  const answer = ta ? ta.value.trim() : '';
+  if (!answer) return;
+  if (!room.submissions[qid]) room.submissions[qid] = {};
+  room.submissions[qid][ST.drill.playerId] = {
+    playerId: ST.drill.playerId, answer, ts: Date.now(), verdict: null, points: 0
+  };
+  saveRoom(room);
+}
+
+function judgeSubmission(playerId, correct) {
+  const room = ST.drill.room;
+  const judge = currentJudge(room);
+  if (!judge || judge.id !== ST.drill.playerId) return;
+  const qid = room.queueIds[room.qi];
+  const subs = room.submissions[qid] || {};
+  const entries = Object.values(subs).sort((a,b) => a.ts - b.ts);
+  const sub = subs[playerId];
+  if (!sub || sub.verdict) return;
+  const rank = entries.findIndex(s => s.playerId === playerId);
+  sub.verdict = correct ? 'right' : 'wrong';
+  sub.points = correct ? scoreForRank(rank) : 0;
+  if (correct) {
+    const p = room.players.find(x => x.id === playerId);
+    if (p) p.score += sub.points;
+  }
+  saveRoom(room);
+}
+
+function nextGroupQuestion() {
+  const room = ST.drill.room;
+  const judge = currentJudge(room);
+  if (!judge || judge.id !== ST.drill.playerId) return;
+  room.qi++;
+  room.judgeIndex = (room.judgeIndex + 1) % room.players.length;
+  if (room.qi >= room.queueIds.length) room.done = true;
+  saveRoom(room);
+}
+
+function renderScoreboard(room) {
+  const rows = [...room.players].sort((a,b) => b.score - a.score);
+  return `<div class="scoreboard">
+    ${rows.map((p, i) => `<div class="score-row">
+      <span class="score-rank">#${i+1}</span>
+      <span class="score-name">${esc(p.name)}</span>
+      <span class="score-pts">${p.score}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ── KEYBOARD SHORTCUTS ──
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || (e.metaKey || e.ctrlKey || e.shiftKey)) return;
+  if (!document.getElementById('drill-panel').classList.contains('active')) return;
+  const solo = document.getElementById('solo-answer');
+  const group = document.getElementById('group-answer');
+  if (document.activeElement === solo) { e.preventDefault(); submitSoloAnswer(); }
+  if (document.activeElement === group) { e.preventDefault(); submitGroupAnswer(); }
+});
+
+// ═══════════════════════════════════════════════════
+//  TAB SWITCHING
+// ═══════════════════════════════════════════════════
+
+function switchTab(tab) {
+  const studyP = document.getElementById('study-panel');
+  const drillP = document.getElementById('drill-panel');
+  const tabS   = document.getElementById('tab-study');
+  const tabD   = document.getElementById('tab-drill');
+  const bNavS  = document.getElementById('bnav-study');
+  const bNavD  = document.getElementById('bnav-drill');
+
+  if (tab === 'study') {
+    studyP.classList.add('active');
+    drillP.classList.remove('active');
+    tabS.classList.add('active');
+    tabD.classList.remove('active');
+    if (bNavS) { bNavS.classList.add('active');    bNavD.classList.remove('active'); }
+    renderSummary();
+    renderSidebar();
+  } else {
+    studyP.classList.remove('active');
+    drillP.classList.add('active');
+    tabS.classList.remove('active');
+    tabD.classList.add('active');
+    if (bNavS) { bNavS.classList.remove('active'); bNavD.classList.add('active'); }
+    initDrill();
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+
+renderSummary();
+renderSidebar();
+renderCards();
+
+// ── WELCOME MODAL ──────────────────────────────────
+
+function openModal() {
+  const m = document.getElementById('modal');
+  m.style.display = 'flex';
+  requestAnimationFrame(() => m.classList.add('show'));
+}
+
+function closeModal() {
+  const m = document.getElementById('modal');
+  m.classList.remove('show');
+  m.classList.add('hide');
+  setTimeout(() => {
+    m.style.display = 'none';
+    m.classList.remove('hide');
+  }, 260);
+}
+
+function handleBackdropClick(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const m = document.getElementById('modal');
+    if (m.style.display !== 'none' && m.classList.contains('show')) closeModal();
+  }
+});
+
+// Show on load
+openModal();
+
+// ── PWA SETUP ──────────────────────────────────────
+
+// Generate home screen icon via canvas
+(function buildIcon() {
+  try {
+    const S = 512;
+    const c = document.createElement('canvas');
+    c.width = c.height = S;
+    const x = c.getContext('2d');
+
+    // Background
+    x.fillStyle = '#2C2416';
+    x.fillRect(0, 0, S, S);
+
+    // Amber accent lines (field notebook rules)
+    x.strokeStyle = '#C8862A';
+    x.lineWidth = 10;
+    x.beginPath();
+    x.moveTo(52, 148); x.lineTo(460, 148);
+    x.moveTo(52, 364); x.lineTo(460, 364);
+    x.stroke();
+
+    // Vertical left binding line
+    x.strokeStyle = 'rgba(200,134,42,0.35)';
+    x.lineWidth = 6;
+    x.beginPath(); x.moveTo(88, 60); x.lineTo(88, 452); x.stroke();
+
+    // Main text
+    x.fillStyle = '#F5F0E8';
+    x.textAlign = 'center';
+    x.textBaseline = 'middle';
+    x.font = 'bold 156px Georgia, serif';
+    x.fillText('TL', 288, 256);
+
+    // Subtitle
+    x.fillStyle = '#C8862A';
+    x.font = '500 38px monospace';
+    x.fillText('FIELD MANUAL', 288, 418);
+
+    // Dot accent
+    x.fillStyle = '#8B4A2B';
+    [100,122,144,166,188].forEach(y => {
+      x.beginPath(); x.arc(88, y, 5, 0, Math.PI*2); x.fill();
+    });
+
+    // Inject as apple-touch-icon
+    const link = document.createElement('link');
+    link.rel = 'apple-touch-icon';
+    link.sizes = '512x512';
+    link.href = c.toDataURL('image/png');
+    document.head.appendChild(link);
+  } catch(e) {}
+})();
+
+// Inject web app manifest
+(function buildManifest() {
+  try {
+    const manifest = {
+      name: 'Trip Leader Field Manual',
+      short_name: 'Field Manual',
+      description: 'HXP Trip Leader quiz study tool — 188 questions',
+      start_url: '.',
+      display: 'standalone',
+      orientation: 'portrait',
+      background_color: '#2C2416',
+      theme_color: '#2C2416'
+    };
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(manifest));
+    document.head.appendChild(link);
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
