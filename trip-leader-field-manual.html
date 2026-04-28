@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#2C2416">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Toolkit Practice">
+<meta name="apple-mobile-web-app-title" content="TL Toolkit Practice">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Trip Leader Toolkit Practice</title>
+<title>TL Toolkit Practice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
@@ -602,7 +602,7 @@ body {
   inset: 0;
   background: rgba(44,36,22,0.72);
   z-index: 1000;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -1332,7 +1332,7 @@ button { -webkit-tap-highlight-color: transparent; }
   </button>
 </nav>
 
-<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+<script defer src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════
 //  DATA
@@ -2170,6 +2170,18 @@ function peerAvailable() {
   return typeof Peer !== 'undefined';
 }
 
+function waitForPeer(cb, attempt = 0) {
+  if (peerAvailable()) {
+    cb();
+    return;
+  }
+  if (attempt >= 30) {
+    setNetStatus('Online rooms are still loading. Check the network and try again.', true);
+    return;
+  }
+  setTimeout(() => waitForPeer(cb, attempt + 1), 100);
+}
+
 function closeRoomTransport() {
   const d = ST.drill;
   if (d.joinTimer) clearTimeout(d.joinTimer);
@@ -2209,9 +2221,12 @@ function startHostTransport(code) {
   const d = ST.drill;
   closeRoomTransport();
   d.netRole = 'host';
-  d.netStatus = peerAvailable() ? 'Opening online room...' : 'Online rooms are blocked because the peer library did not load.';
-  d.netErr = !peerAvailable();
-  if (!peerAvailable()) return;
+  d.netStatus = 'Opening online room...';
+  d.netErr = false;
+  if (!peerAvailable()) {
+    waitForPeer(() => startHostTransport(code));
+    return;
+  }
 
   const peer = new Peer(roomPeerId(code), {debug:0});
   d.peer = peer;
@@ -2248,10 +2263,13 @@ function startClientTransport(code, player) {
   closeRoomTransport();
   d.netRole = 'client';
   d.roomCode = code;
-  d.netStatus = peerAvailable() ? 'Joining online room...' : 'Online rooms are blocked because the peer library did not load.';
-  d.netErr = !peerAvailable();
+  d.netStatus = 'Joining online room...';
+  d.netErr = false;
   renderDrillContent();
-  if (!peerAvailable()) return false;
+  if (!peerAvailable()) {
+    waitForPeer(() => startClientTransport(code, player));
+    return true;
+  }
 
   const peer = new Peer(undefined, {debug:0});
   d.peer = peer;
@@ -2721,8 +2739,8 @@ if (!hasSavedAppData()) openModal();
 
     // Subtitle
     x.fillStyle = '#C8862A';
-    x.font = '500 38px monospace';
-    x.fillText('FIELD MANUAL', 288, 418);
+    x.font = '500 50px monospace';
+    x.fillText('TOOLKIT', 288, 418);
 
     // Dot accent
     x.fillStyle = '#8B4A2B';
@@ -2743,8 +2761,8 @@ if (!hasSavedAppData()) openModal();
 (function buildManifest() {
   try {
     const manifest = {
-      name: 'Trip Leader Field Manual',
-      short_name: 'Field Manual',
+      name: 'TL Toolkit Practice',
+      short_name: 'TL Toolkit Practice',
       description: 'HXP Trip Leader quiz study tool — 188 questions',
       start_url: '.',
       display: 'standalone',
