@@ -169,6 +169,8 @@ body {
   background: var(--amber);
   color: var(--ink);
 }
+.mobile-filter-btn,
+.mobile-filter-menu { display: none; }
 .save-all-btn {
   flex-shrink: 0;
   background: var(--olive);
@@ -753,7 +755,7 @@ body {
     gap: 8px;
     flex-wrap: wrap;
     align-content: center;
-    overflow-x: hidden;
+    overflow-x: visible;
   }
   .summary-bar .s-stat {
     flex: 1 1 calc(25% - 10px);
@@ -764,29 +766,85 @@ body {
   .summary-bar .s-num { font-size: 0.92rem; }
   .summary-bar .s-divider { display: none; }
   .save-all-btn,
-  .hunt-filter-btn {
+  .mobile-filter-btn {
     flex: 1 1 calc(50% - 5px);
     margin-left: 0;
     text-align: center;
     padding: 7px 8px;
     min-height: 32px;
   }
+  .hunt-filter-btn { display: none; }
+  .mobile-filter-btn {
+    display: block;
+    background: transparent;
+    border: 1.5px solid var(--amber);
+    color: var(--amber);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .mobile-filter-btn.active {
+    background: var(--amber);
+    color: var(--ink);
+  }
+  .mobile-filter-menu {
+    display: none;
+    position: fixed;
+    top: calc(var(--header-h) + var(--summary-h) + env(safe-area-inset-top, 0px));
+    left: 10px;
+    right: 10px;
+    max-height: calc(100vh - var(--header-h) - var(--summary-h) - 78px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    background: var(--cream);
+    border: 1.5px solid rgba(44,36,22,0.16);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 10px 28px rgba(44,36,22,0.22);
+    z-index: 140;
+    padding: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-filter-menu.open { display: block; }
+  .mobile-filter-option {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+    background: rgba(255,255,255,0.48);
+    border: 1px solid rgba(44,36,22,0.1);
+    border-left: 3px solid transparent;
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    text-align: left;
+    padding: 10px 11px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .mobile-filter-option.active {
+    border-left-color: var(--amber);
+    background: rgba(200,134,42,0.1);
+  }
+  .mobile-filter-option .filter-name {
+    font-size: 0.68rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .mobile-filter-option .filter-count {
+    font-size: 0.62rem;
+    color: var(--ink2);
+    font-variant-numeric: tabular-nums;
+  }
 
   .study-layout { flex-direction: column; }
   .chapter-sidebar {
-    width: 100%;
-    min-width: unset;
-    height: auto;
-    position: static;
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    border-right: none;
-    border-bottom: 1px solid rgba(44,36,22,0.1);
-    padding: 6px 0 4px;
-    background: rgba(245,240,232,0.6);
-    -webkit-overflow-scrolling: touch;
+    display: none;
   }
   .sb-item {
     min-width: 130px;
@@ -795,6 +853,7 @@ body {
     flex-shrink: 0;
     padding: 8px 12px;
   }
+  .chapter-sidebar .sb-item { display: none; }
   .sb-item:hover, .sb-item.active {
     border-bottom-color: var(--amber);
     border-left-color: transparent;
@@ -908,6 +967,7 @@ body {
 .conn-status { font-size:0.63rem; color:var(--ink2); text-align:center; padding:7px; }
 .conn-status.ok { color:var(--sage); }
 .conn-status.err { color:var(--rust); }
+.conn-status.left { text-align:left; }
 
 /* ── GROUP GAME ── */
 .group-game-hdr { display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
@@ -1195,11 +1255,11 @@ button { -webkit-tap-highlight-color: transparent; }
       <div class="modal-section">
         <div class="modal-section-title">Study Mode</div>
         <div class="modal-rows">
-          <div class="modal-row"><span class="dot"></span><span>Browse all 188 questions, filtered by chapter using the left sidebar</span></div>
+          <div class="modal-row"><span class="dot"></span><span>Browse all 188 questions, filtered by chapter using the sidebar or mobile filter menu</span></div>
           <div class="modal-row"><span class="dot rust"></span><span>Mark a question <strong>Hunting</strong> while you're still looking up the answer in your book</span></div>
           <div class="modal-row"><span class="dot olive"></span><span>Mark it <strong>Learned</strong> once you've found and understood the answer</span></div>
           <div class="modal-row"><span class="dot"></span><span>Type your answer in the notes box — it auto-saves when you click away</span></div>
-          <div class="modal-row"><span class="dot"></span><span>Use <strong>Hunting List</strong> in the summary bar to focus on unresolved questions</span></div>
+          <div class="modal-row"><span class="dot"></span><span>Use <strong>Hunting List</strong> in the filters to focus on unresolved questions</span></div>
         </div>
       </div>
 
@@ -1272,6 +1332,7 @@ button { -webkit-tap-highlight-color: transparent; }
   </button>
 </nav>
 
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════
 //  DATA
@@ -1507,6 +1568,7 @@ function setNotes(id, v) { localStorage.setItem('hxp_n_' + id, v); }
 const ST = {
   chFilter: 'all',
   huntOnly: false,
+  mobileFiltersOpen: false,
   drill: {
     mode: null, section: 'all',
     queue: [], qi: 0, correct: 0, attempted: 0,
@@ -1514,7 +1576,8 @@ const ST = {
     playerId: sessionStorage.getItem('hxp_player_id') || '',
     playerName: localStorage.getItem('hxp_player_name') || '',
     roomCode: '', room: null, isHost: false, groupAnswer: '', groupSubmitted: false,
-    bc: null, pollTick: null, lastRoomUpdated: 0
+    bc: null, pollTick: null, lastRoomUpdated: 0,
+    peer: null, hostConn: null, conns: [], netRole: '', netStatus: '', netErr: false, joinTimer: null
   }
 };
 
@@ -1580,6 +1643,8 @@ function shuffle(arr) {
 
 function renderSummary() {
   const {l,h,u,t} = stats();
+  const filterActive = ST.huntOnly || ST.chFilter !== 'all';
+  const filterLabel = studyFilterLabel();
   document.getElementById('summary-bar').innerHTML = `
     <div class="s-stat s-learned"><span class="s-num">${l}</span>learned</div>
     <div class="s-divider"></div>
@@ -1591,7 +1656,49 @@ function renderSummary() {
     <button class="save-all-btn" id="save-all-btn" onclick="saveAllNotes()">Save Notes</button>
     <button class="hunt-filter-btn${ST.huntOnly?' active':''}" onclick="toggleHunt()">
       ${ST.huntOnly ? '✕ All Questions' : '⊕ Hunting List'}
+    </button>
+    <button class="mobile-filter-btn${filterActive || ST.mobileFiltersOpen ? ' active' : ''}" onclick="toggleMobileFilters()">
+      ${esc(filterLabel)}
+    </button>
+    ${renderMobileFilterMenu()}`;
+}
+
+function studyFilterLabel() {
+  if (ST.huntOnly) return 'Hunting List';
+  if (ST.chFilter !== 'all') return abbreviateFilterLabel(ST.chFilter);
+  return 'All Questions';
+}
+
+function abbreviateFilterLabel(label) {
+  return String(label)
+    .replace(/\bChapters\b/g, 'Chs')
+    .replace(/\bChapter\b/g, 'Ch')
+    .replace(/\bAppendix\b/g, 'App');
+}
+
+function renderMobileFilterMenu() {
+  const {h,t} = stats();
+  const allActive = !ST.huntOnly && ST.chFilter === 'all';
+  let html = `<div class="mobile-filter-menu${ST.mobileFiltersOpen ? ' open' : ''}" id="mobile-filter-menu">
+    <button class="mobile-filter-option${allActive ? ' active' : ''}" onclick="setStudyFilter('all')">
+      <span class="filter-name">All Questions</span>
+      <span class="filter-count">${t}</span>
+    </button>
+    <button class="mobile-filter-option${ST.huntOnly ? ' active' : ''}" onclick="setStudyFilter('hunting')">
+      <span class="filter-name">Hunting List</span>
+      <span class="filter-count">${h}</span>
     </button>`;
+
+  CHAPTERS.forEach((ch, i) => {
+    const count = QUESTIONS.filter(q => q.chapter === ch).length;
+    const active = !ST.huntOnly && ST.chFilter === ch;
+    html += `<button class="mobile-filter-option${active ? ' active' : ''}" onclick="setStudyFilter('chapter', ${i})">
+      <span class="filter-name">${esc(ch)}</span>
+      <span class="filter-count">${count}</span>
+    </button>`;
+  });
+
+  return html + `</div>`;
 }
 
 function renderSidebar() {
@@ -1736,6 +1843,7 @@ function mark(id, status) {
 function setChFilter(ch) {
   ST.chFilter = ch;
   ST.huntOnly = false;
+  ST.mobileFiltersOpen = false;
   renderSummary();
   renderSidebar();
   renderCards();
@@ -1744,10 +1852,42 @@ function setChFilter(ch) {
 function toggleHunt() {
   ST.huntOnly = !ST.huntOnly;
   if (ST.huntOnly) ST.chFilter = 'all';
+  ST.mobileFiltersOpen = false;
   renderSummary();
   renderSidebar();
   renderCards();
 }
+
+function toggleMobileFilters() {
+  ST.mobileFiltersOpen = !ST.mobileFiltersOpen;
+  renderSummary();
+}
+
+function setStudyFilter(kind, chapterIndex) {
+  if (kind === 'hunting') {
+    ST.huntOnly = true;
+    ST.chFilter = 'all';
+  } else if (kind === 'chapter') {
+    ST.huntOnly = false;
+    ST.chFilter = CHAPTERS[chapterIndex] || 'all';
+  } else {
+    ST.huntOnly = false;
+    ST.chFilter = 'all';
+  }
+  ST.mobileFiltersOpen = false;
+  renderSummary();
+  renderSidebar();
+  renderCards();
+}
+
+document.addEventListener('click', e => {
+  if (!ST.mobileFiltersOpen) return;
+  const menu = document.getElementById('mobile-filter-menu');
+  const btn = e.target.closest && e.target.closest('.mobile-filter-btn');
+  if ((menu && menu.contains(e.target)) || btn) return;
+  ST.mobileFiltersOpen = false;
+  renderSummary();
+});
 
 // ═══════════════════════════════════════════════════
 //  DRILL MODE
@@ -1937,6 +2077,9 @@ function showGroupSetup() {
   d.room = null;
   d.roomCode = '';
   d.isHost = false;
+  closeRoomTransport();
+  d.netStatus = '';
+  d.netErr = false;
   renderDrillContent();
 }
 
@@ -1946,7 +2089,8 @@ function renderGroupDrill(el) {
     const savedName = esc(d.playerName);
     el.innerHTML = `<div class="drill-card">
       <div class="drill-gate-title">Group room</div>
-      <div class="drill-gate-sub">Rooms sync between open clients on this site. Create a room or join with a code.</div>
+      <div class="drill-gate-sub">Create an online room, then join from another device with the code.</div>
+      ${d.netStatus ? `<div class="conn-status ${d.netErr?'err':'ok'} left">${esc(d.netStatus)}</div>` : ''}
       <div class="input-group">
         <div class="input-label">Your name</div>
         <input class="txt-input" id="player-name" value="${savedName}" placeholder="Trip leader name">
@@ -1968,6 +2112,8 @@ function renderGroupDrill(el) {
 
 function roomKey(code) { return 'hxp_room_' + code; }
 
+function roomPeerId(code) { return 'hxp-trip-leader-' + code.toLowerCase(); }
+
 function makeRoomCode() {
   return Math.random().toString(36).slice(2, 7).toUpperCase();
 }
@@ -1977,14 +2123,26 @@ function readRoom(code) {
   catch(e) { return null; }
 }
 
-function saveRoom(room) {
+function applyRemoteRoom(room) {
+  const d = ST.drill;
   room.updatedAt = Date.now();
   localStorage.setItem(roomKey(room.code), JSON.stringify(room));
-  if (ST.drill.bc) ST.drill.bc.postMessage({code: room.code});
-  ST.drill.room = room;
-  ST.drill.lastRoomUpdated = room.updatedAt;
+  d.room = room;
+  d.roomCode = room.code;
+  d.lastRoomUpdated = room.updatedAt;
+  d.isHost = room.hostId === d.playerId;
   renderDrillHeader();
   renderDrillContent();
+}
+
+function saveRoom(room) {
+  const d = ST.drill;
+  applyRemoteRoom(room);
+  if (d.bc) d.bc.postMessage({code: room.code});
+  if (d.netRole === 'host') broadcastRoom(room);
+  else if (d.netRole === 'client' && d.hostConn && d.hostConn.open) {
+    d.hostConn.send({type:'room-update', room});
+  }
 }
 
 function openRoomChannel(code) {
@@ -2001,6 +2159,127 @@ function openRoomChannel(code) {
   });
 }
 
+function setNetStatus(msg, isErr) {
+  const d = ST.drill;
+  d.netStatus = msg;
+  d.netErr = !!isErr;
+  renderDrillContent();
+}
+
+function peerAvailable() {
+  return typeof Peer !== 'undefined';
+}
+
+function closeRoomTransport() {
+  const d = ST.drill;
+  if (d.joinTimer) clearTimeout(d.joinTimer);
+  d.joinTimer = null;
+  if (d.hostConn) {
+    try { d.hostConn.close(); } catch(e) {}
+  }
+  d.conns.forEach(conn => {
+    try { conn.close(); } catch(e) {}
+  });
+  if (d.peer) {
+    try { d.peer.destroy(); } catch(e) {}
+  }
+  d.peer = null;
+  d.hostConn = null;
+  d.conns = [];
+  d.netRole = '';
+}
+
+function broadcastRoom(room) {
+  const d = ST.drill;
+  d.conns = d.conns.filter(conn => conn && conn.open);
+  d.conns.forEach(conn => conn.send({type:'room', room}));
+}
+
+function playerPayload(name) {
+  return {id:ST.drill.playerId, name, ready:false, score:0};
+}
+
+function upsertPlayer(room, player) {
+  const existing = room.players.find(p => p.id === player.id);
+  if (existing) existing.name = player.name;
+  else room.players.push(player);
+}
+
+function startHostTransport(code) {
+  const d = ST.drill;
+  closeRoomTransport();
+  d.netRole = 'host';
+  d.netStatus = peerAvailable() ? 'Opening online room...' : 'Online rooms are blocked because the peer library did not load.';
+  d.netErr = !peerAvailable();
+  if (!peerAvailable()) return;
+
+  const peer = new Peer(roomPeerId(code), {debug:0});
+  d.peer = peer;
+  peer.on('open', () => setNetStatus('Online room is live. Share the code with other devices.', false));
+  peer.on('connection', conn => {
+    conn.on('open', () => {
+      d.conns.push(conn);
+      conn.send({type:'room', room:d.room});
+      setNetStatus(`${d.conns.filter(c => c.open).length} remote player connection${d.conns.filter(c => c.open).length === 1 ? '' : 's'} online.`, false);
+    });
+    conn.on('data', msg => {
+      if (!msg || !d.room) return;
+      if (msg.type === 'join' && msg.player) {
+        upsertPlayer(d.room, msg.player);
+        saveRoom(d.room);
+      }
+      if (msg.type === 'room-update' && msg.room && msg.room.code === d.room.code) {
+        saveRoom(msg.room);
+      }
+    });
+    conn.on('close', () => {
+      d.conns = d.conns.filter(c => c !== conn);
+      setNetStatus(`${d.conns.filter(c => c.open).length} remote player connection${d.conns.filter(c => c.open).length === 1 ? '' : 's'} online.`, false);
+    });
+  });
+  peer.on('error', err => {
+    const taken = err && err.type === 'unavailable-id';
+    setNetStatus(taken ? 'That room code is already in use. Create a new room.' : 'Could not open the online room. Check the network and try again.', true);
+  });
+}
+
+function startClientTransport(code, player) {
+  const d = ST.drill;
+  closeRoomTransport();
+  d.netRole = 'client';
+  d.roomCode = code;
+  d.netStatus = peerAvailable() ? 'Joining online room...' : 'Online rooms are blocked because the peer library did not load.';
+  d.netErr = !peerAvailable();
+  renderDrillContent();
+  if (!peerAvailable()) return false;
+
+  const peer = new Peer(undefined, {debug:0});
+  d.peer = peer;
+  peer.on('open', () => {
+    const conn = peer.connect(roomPeerId(code), {reliable:true});
+    d.hostConn = conn;
+    conn.on('open', () => {
+      conn.send({type:'join', player});
+      setNetStatus('Connected. Waiting for the host room...', false);
+    });
+    conn.on('data', msg => {
+      if (msg && msg.type === 'room' && msg.room) {
+        if (d.joinTimer) clearTimeout(d.joinTimer);
+        d.joinTimer = null;
+        applyRemoteRoom(msg.room);
+        setNetStatus('Connected to online room.', false);
+      }
+    });
+    conn.on('close', () => setNetStatus('Disconnected from the host room.', true));
+    conn.on('error', () => setNetStatus('Could not connect to that room code.', true));
+  });
+  peer.on('error', () => setNetStatus('Could not join online room. Check the code and network.', true));
+  d.joinTimer = setTimeout(() => {
+    if (!d.room) setNetStatus('Still looking for that room. Make sure the host page is open and the code is right.', true);
+  }, 7000);
+  return true;
+}
+
 function playerNameFromInput() {
   const input = document.getElementById('player-name');
   const name = (input && input.value.trim()) || 'Player';
@@ -2013,7 +2292,7 @@ function createGroupRoom() {
   const d = ST.drill;
   const name = playerNameFromInput();
   const code = makeRoomCode();
-  const player = {id:d.playerId, name, ready:false, score:0};
+  const player = playerPayload(name);
   const room = {
     code, hostId:d.playerId, section:d.section, queueIds: [],
     started:false, done:false, qi:0, judgeIndex:0, players:[player], submissions:{}
@@ -2022,6 +2301,7 @@ function createGroupRoom() {
   d.isHost = true;
   d.room = room;
   openRoomChannel(code);
+  startHostTransport(code);
   saveRoom(room);
 }
 
@@ -2030,14 +2310,19 @@ function joinGroupRoom() {
   const name = playerNameFromInput();
   const input = document.getElementById('room-code-input');
   const code = (input && input.value.trim().toUpperCase()) || '';
+  if (!code) {
+    alert('Enter a room code first.');
+    return;
+  }
+  if (startClientTransport(code, playerPayload(name))) return;
   const room = readRoom(code);
   if (!room) {
-    alert('Room not found. Check the code and try again.');
+    alert('Room not found in this browser. For phones, the host device needs an online connection.');
     return;
   }
   const existing = room.players.find(p => p.id === d.playerId);
   if (existing) existing.name = name;
-  else room.players.push({id:d.playerId, name, ready:false, score:0});
+  else room.players.push(playerPayload(name));
   d.roomCode = code;
   d.isHost = room.hostId === d.playerId;
   d.room = room;
@@ -2124,8 +2409,9 @@ function renderGroupRoom(el) {
       <div class="room-code-display">
         <div class="room-code-label">Room code</div>
         <div class="room-code-val">${esc(room.code)}</div>
-        <div class="room-code-tip">${room.done ? 'Round complete · choose the next section' : 'Choose a section, get ready, then race'}</div>
+        <div class="room-code-tip">${room.done ? 'Round complete · choose the next section' : 'Share this code with other devices'}</div>
       </div>
+      ${d.netStatus ? `<div class="conn-status ${d.netErr?'err':'ok'}">${esc(d.netStatus)}</div>` : ''}
       ${room.done ? `<div class="drill-msg" style="padding:8px 0 18px">
         <h3>Group Round Complete</h3>
         ${renderScoreboard(room)}
