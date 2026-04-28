@@ -2361,6 +2361,7 @@ function openModal() {
 }
 
 function closeModal() {
+  try { localStorage.setItem('hxp_seen_welcome', '1'); } catch(e) {}
   const m = document.getElementById('modal');
   m.classList.remove('show');
   m.classList.add('hide');
@@ -2381,8 +2382,22 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Show on load
-openModal();
+function hasSavedAppData() {
+  try {
+    if (localStorage.getItem('hxp_seen_welcome') === '1') return true;
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k) continue;
+      if (k.startsWith('hxp_s_')) return true;
+      if (k.startsWith('hxp_n_') && localStorage.getItem(k)) return true;
+      if (k === 'hxp_last_saved') return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// Show only for a brand-new visitor with no saved data
+if (!hasSavedAppData()) openModal();
 
 // ── PWA SETUP ──────────────────────────────────────
 
