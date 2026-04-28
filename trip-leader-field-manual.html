@@ -169,6 +169,28 @@ body {
   background: var(--amber);
   color: var(--ink);
 }
+.save-all-btn {
+  flex-shrink: 0;
+  background: var(--olive);
+  border: 1.5px solid var(--olive);
+  color: var(--cream);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
+  padding: 4px 13px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.save-all-btn:hover,
+.save-all-btn.saved {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: var(--cream);
+}
 
 /* ── STUDY LAYOUT ── */
 .study-layout {
@@ -722,11 +744,33 @@ body {
 
 /* ── MOBILE ── */
 @media (max-width: 800px) {
-  :root { --header-h: 56px; --summary-h: 42px; }
+  :root { --header-h: 56px; --summary-h: 82px; }
   .app-header { padding: 0 14px; }
   .app-title { font-size: 0.9rem; }
   .tab-btn { padding: 5px 12px; font-size: 0.65rem; }
-  .summary-bar { padding: 0 12px; gap: 12px; }
+  .summary-bar {
+    padding: 7px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-content: center;
+    overflow-x: hidden;
+  }
+  .summary-bar .s-stat {
+    flex: 1 1 calc(25% - 10px);
+    justify-content: center;
+    gap: 4px;
+    font-size: 0.58rem;
+  }
+  .summary-bar .s-num { font-size: 0.92rem; }
+  .summary-bar .s-divider { display: none; }
+  .save-all-btn,
+  .hunt-filter-btn {
+    flex: 1 1 calc(50% - 5px);
+    margin-left: 0;
+    text-align: center;
+    padding: 7px 8px;
+    min-height: 32px;
+  }
 
   .study-layout { flex-direction: column; }
   .chapter-sidebar {
@@ -970,18 +1014,161 @@ body {
   .drill-inner     { padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
 
   /* Larger, easier-to-tap card buttons */
+  .card-btns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
   .c-btn {
+    width: 100%;
+    min-width: 0;
     min-height: 38px;
-    padding: 8px 14px;
+    padding: 8px 8px;
     font-size: 0.67rem;
+    line-height: 1.25;
+    white-space: normal;
+    text-align: center;
+  }
+  .c-btn.rst {
+    grid-column: 1 / -1;
   }
   .d-btn { min-height: 54px; font-size: 0.74rem; }
 
   /* Prevent iOS zoom on textarea focus (requires font-size >= 16px) */
-  .notes-ta { font-size: 16px; }
+  .notes-ta,
+  .solo-answer-ta,
+  .txt-input { font-size: 16px; }
 
   /* Momentum scrolling */
-  .chapter-sidebar { -webkit-overflow-scrolling: touch; }
+  .chapter-sidebar {
+    position: static;
+    height: auto;
+    max-height: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .drill-header {
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .drill-header .solo-score-badge {
+    order: 2;
+    flex: 0 0 auto;
+  }
+  .drill-meta {
+    order: 1;
+    flex: 1 1 100%;
+  }
+  .solo-quit-btn {
+    order: 3;
+    margin-left: auto;
+    min-height: 32px;
+  }
+  .drill-sub {
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+  }
+  .drill-gate-title { font-size: 1.18rem; }
+  .drill-gate-sub { margin-bottom: 16px; }
+  .mode-cards {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+  .mode-card {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    grid-template-areas:
+      "icon title"
+      "icon desc";
+    align-items: center;
+    text-align: left;
+    padding: 14px 13px;
+    gap: 2px 10px;
+  }
+  .mode-card-icon {
+    grid-area: icon;
+    margin: 0;
+    text-align: center;
+  }
+  .mode-card-title { grid-area: title; margin-bottom: 0; }
+  .mode-card-desc { grid-area: desc; }
+  .ch-pills {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .ch-pill {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 10px;
+    text-align: left;
+    line-height: 1.35;
+    white-space: normal;
+  }
+  .drill-card-top {
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+  .drill-q-text {
+    font-size: 0.84rem;
+    line-height: 1.62;
+    margin-bottom: 16px;
+  }
+  .solo-header,
+  .group-game-hdr {
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+  .solo-score-badge,
+  .judge-badge {
+    line-height: 1.35;
+  }
+  .room-code-display {
+    padding: 14px 10px;
+  }
+  .room-code-val {
+    font-size: 1.75rem;
+    letter-spacing: 0.12em;
+  }
+  .player-row,
+  .score-row {
+    min-width: 0;
+  }
+  .player-name,
+  .score-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .sub-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 5px 8px;
+  }
+  .sub-name {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .sub-answer {
+    grid-column: 1 / -1;
+    order: 3;
+    overflow-wrap: anywhere;
+  }
+  .sub-order {
+    justify-self: end;
+  }
+  .verdict-btns {
+    grid-column: 1 / -1;
+    order: 4;
+    justify-content: stretch;
+  }
+  .vbtn {
+    flex: 1;
+    width: auto;
+    min-height: 34px;
+  }
 
   /* Help button always visible on mobile */
   .help-btn { display: flex; }
@@ -1401,6 +1588,7 @@ function renderSummary() {
     <div class="s-stat s-unseen"><span class="s-num">${u}</span>unseen</div>
     <div class="s-divider"></div>
     <div class="s-stat"><span class="s-num">${t}</span>total</div>
+    <button class="save-all-btn" id="save-all-btn" onclick="saveAllNotes()">Save Notes</button>
     <button class="hunt-filter-btn${ST.huntOnly?' active':''}" onclick="toggleHunt()">
       ${ST.huntOnly ? '✕ All Questions' : '⊕ Hunting List'}
     </button>`;
@@ -1494,6 +1682,35 @@ function flushActiveTextarea() {
   }
 }
 
+function saveAllNotes({quiet=false} = {}) {
+  document.querySelectorAll('.notes-ta').forEach(ta => {
+    const id = +ta.id.replace('nta-','');
+    if (id) setNotes(id, ta.value);
+  });
+
+  try {
+    localStorage.setItem('hxp_last_saved', new Date().toISOString());
+  } catch(e) {}
+
+  if (!quiet) {
+    const b = document.getElementById('save-all-btn');
+    if (b) {
+      b.textContent = 'Saved';
+      b.classList.add('saved');
+      setTimeout(() => {
+        b.textContent = 'Save Notes';
+        b.classList.remove('saved');
+      }, 1600);
+    }
+  }
+}
+
+window.addEventListener('pagehide', () => saveAllNotes({quiet:true}));
+window.addEventListener('beforeunload', () => saveAllNotes({quiet:true}));
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') saveAllNotes({quiet:true});
+});
+
 function mark(id, status) {
   flushActiveTextarea();
   setStatus(id, status);
@@ -1582,6 +1799,10 @@ function sectionQuestions() {
   return QUESTIONS.filter(q => ST.drill.section === 'all' || q.chapter === ST.drill.section);
 }
 
+function questionsForSection(section) {
+  return QUESTIONS.filter(q => section === 'all' || q.chapter === section);
+}
+
 function renderDrillGate(el) {
   const d = ST.drill;
   const count = sectionQuestions().length;
@@ -1602,7 +1823,7 @@ function renderDrillGate(el) {
       </div>
       <div class="mode-card" onclick="showGroupSetup()">
         <div class="mode-card-icon">◈</div>
-        <div class="mode-card-title">Online Group Mode</div>
+        <div class="mode-card-title">Group Mode</div>
         <div class="mode-card-desc">2+ ready players race to answer while the judge rotates each question.</div>
       </div>
     </div>
@@ -1794,7 +2015,7 @@ function createGroupRoom() {
   const code = makeRoomCode();
   const player = {id:d.playerId, name, ready:false, score:0};
   const room = {
-    code, hostId:d.playerId, section:d.section, queueIds: shuffle(sectionQuestions()).map(q => q.id),
+    code, hostId:d.playerId, section:d.section, queueIds: [],
     started:false, done:false, qi:0, judgeIndex:0, players:[player], submissions:{}
   };
   d.roomCode = code;
@@ -1858,6 +2079,38 @@ function renderPlayers(room) {
   </div>`;
 }
 
+function renderRoomSectionPicker(room) {
+  const count = questionsForSection(room.section).length;
+  const all = `<button class="ch-pill${room.section==='all'?' on':''}" onclick="setRoomSection('all')">All <span>${QUESTIONS.length}</span></button>`;
+  const chapters = CHAPTERS.map((ch, i) => {
+    const n = questionsForSection(ch).length;
+    return `<button class="ch-pill${room.section===ch?' on':''}" onclick="setRoomSection(${i})">${esc(ch)} <span>${n}</span></button>`;
+  }).join('');
+
+  if (ST.drill.isHost) {
+    return `<div class="ch-selector-title">Round section</div>
+      <div class="ch-pills">${all}${chapters}</div>
+      <div class="conn-status ok">${count} questions will be shuffled when the host starts the race.</div>`;
+  }
+
+  return `<div class="ch-selector-title">Round section</div>
+    <div class="solo-notes-box">
+      ${esc(room.section === 'all' ? 'All sections' : room.section)} · ${count} questions
+    </div>`;
+}
+
+function setRoomSection(v) {
+  const room = ST.drill.room;
+  if (!room || !ST.drill.isHost || room.started) return;
+  room.section = v === 'all' ? 'all' : CHAPTERS[v];
+  room.queueIds = [];
+  room.qi = 0;
+  room.done = false;
+  room.submissions = {};
+  room.players.forEach(p => p.ready = false);
+  saveRoom(room);
+}
+
 function renderGroupRoom(el) {
   const d = ST.drill;
   const room = d.room;
@@ -1866,26 +2119,31 @@ function renderGroupRoom(el) {
 
   if (!room.started) {
     const allReady = room.players.length >= 2 && room.players.every(p => p.ready);
+    const qCount = questionsForSection(room.section).length;
     el.innerHTML = `<div class="drill-card">
       <div class="room-code-display">
         <div class="room-code-label">Room code</div>
         <div class="room-code-val">${esc(room.code)}</div>
-        <div class="room-code-tip">${esc(room.section === 'all' ? 'All sections' : room.section)} · ${room.queueIds.length} questions</div>
+        <div class="room-code-tip">${room.done ? 'Round complete · choose the next section' : 'Choose a section, get ready, then race'}</div>
       </div>
+      ${room.done ? `<div class="drill-msg" style="padding:8px 0 18px">
+        <h3>Group Round Complete</h3>
+        ${renderScoreboard(room)}
+      </div>` : ''}
+      ${renderRoomSectionPicker(room)}
       ${renderPlayers(room)}
       <button class="ready-btn${me.ready?' on':''}" onclick="toggleReady()">${me.ready?'Ready':'Get Ready'}</button>
-      ${d.isHost ? `<button class="drill-start-btn" ${allReady?'':'disabled'} onclick="startGroupGame()">Start Race</button>` : ''}
-      <div class="conn-status ${allReady?'ok':'err'}">${allReady ? '2+ players ready. Host can start.' : 'Need 2+ players and everyone ready.'}</div>
+      ${d.isHost ? `<button class="drill-start-btn" ${allReady && qCount ? '':'disabled'} onclick="startGroupGame()">Start Race</button>` : ''}
+      <div class="conn-status ${allReady?'ok':'err'}">${allReady ? `${qCount} questions ready. Host can start.` : 'Need 2+ players and everyone ready.'}</div>
     </div>`;
     return;
   }
 
   if (room.done || room.qi >= room.queueIds.length) {
-    el.innerHTML = `<div class="drill-msg">
-      <h3>Group Round Complete</h3>
-      ${renderScoreboard(room)}
-      <button class="action-link-btn" onclick="showGroupSetup()">New Room</button>
-    </div>`;
+    room.started = false;
+    room.done = true;
+    room.players.forEach(p => p.ready = false);
+    saveRoom(room);
     return;
   }
 
@@ -1903,10 +2161,13 @@ function startGroupGame() {
   const room = ST.drill.room;
   if (!ST.drill.isHost) return;
   if (room.players.length < 2 || !room.players.every(p => p.ready)) return;
+  const queue = shuffle(questionsForSection(room.section)).map(q => q.id);
+  if (!queue.length) return;
   room.started = true;
   room.qi = 0;
   room.judgeIndex = 0;
   room.done = false;
+  room.queueIds = queue;
   room.submissions = {};
   room.players.forEach(p => p.score = 0);
   saveRoom(room);
@@ -2023,7 +2284,11 @@ function nextGroupQuestion() {
   if (!judge || judge.id !== ST.drill.playerId) return;
   room.qi++;
   room.judgeIndex = (room.judgeIndex + 1) % room.players.length;
-  if (room.qi >= room.queueIds.length) room.done = true;
+  if (room.qi >= room.queueIds.length) {
+    room.done = true;
+    room.started = false;
+    room.players.forEach(p => p.ready = false);
+  }
   saveRoom(room);
 }
 
