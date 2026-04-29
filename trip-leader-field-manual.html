@@ -296,6 +296,18 @@ body {
   flex-shrink: 0;
   margin-top: 2px;
 }
+.pg-badge {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--rust);
+  background: rgba(139,74,43,0.08);
+  border: 1px solid rgba(139,74,43,0.16);
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
 .ch-badge {
   display: inline-block;
   font-size: 0.58rem;
@@ -1248,14 +1260,14 @@ button { -webkit-tap-highlight-color: transparent; }
 
     <div class="modal-head">
       <h2 id="modal-title">Trip Leader Toolkit Practice</h2>
-      <p>188 questions &nbsp;·&nbsp; No answer key needed &nbsp;·&nbsp; Look it up in your book</p>
+      <p>200 questions &nbsp;·&nbsp; No answer key needed &nbsp;·&nbsp; Look it up in your book</p>
     </div>
 
     <div class="modal-body">
       <div class="modal-section">
         <div class="modal-section-title">Study Mode</div>
         <div class="modal-rows">
-          <div class="modal-row"><span class="dot"></span><span>Browse all 188 questions, filtered by chapter using the sidebar or mobile filter menu</span></div>
+          <div class="modal-row"><span class="dot"></span><span>Browse all 200 questions, filtered by chapter using the sidebar or mobile filter menu</span></div>
           <div class="modal-row"><span class="dot rust"></span><span>Mark a question <strong>Hunting</strong> while you're still looking up the answer in your book</span></div>
           <div class="modal-row"><span class="dot olive"></span><span>Mark it <strong>Learned</strong> once you've found and understood the answer</span></div>
           <div class="modal-row"><span class="dot"></span><span>Type your answer in the notes box — it auto-saves when you click away</span></div>
@@ -1339,194 +1351,206 @@ button { -webkit-tap-highlight-color: transparent; }
 // ═══════════════════════════════════════════════════
 
 const QUESTIONS = [
-  {id:1,chapter:"Chapter 1",q:"Who's life-changing influence will most affect the future life decisions of your Builders?"},
-  {id:2,chapter:"Chapter 1",q:"TRUE or FALSE: With people who are very different from one another, positive peer groups form naturally without extra Trip Leader help."},
-  {id:3,chapter:"Chapter 1",q:"TRUE or FALSE: You need to create a successful group dynamic by yourself because trips aren't structured for success."},
-  {id:4,chapter:"Chapter 1",q:"One of the big secrets to unifying Builders is dividing them into _____."},
-  {id:5,chapter:"Chapter 1",q:"When should Trip Leaders establish the first group reunion?"},
-  {id:6,chapter:"Chapter 1",q:"What is the name and number of the chapter that helps with handling cliques?"},
-  {id:7,chapter:"Chapter 1",q:"When should you change room assignments?"},
-  {id:8,chapter:"Chapter 1",q:"TRUE/FALSE – One of the biggest factors in the builder's conversion is belonging to a 'positive peer group'"},
-  {id:9,chapter:"Chapter 1",q:"What are two ways you as a Trip Leader can help create a positive peer group BEFORE the trip?"},
-  {id:10,chapter:"Chapter 1",q:"What are some ways you can continue facilitating a positive peer group after the trip?"},
-  {id:11,chapter:"Chapter 1",q:"What are THREE ways you can prevent cliques forming?"},
-  {id:12,chapter:"Chapter 1",q:"Who can you mirror a positive peer group with before, during, and after your trip?"},
-  {id:13,chapter:"Chapter 1",q:"What can you do as a Trip Leader when cliques still form?"},
-  {id:14,chapter:"Chapter 2 & Appendix A",q:"What is your number one priority as a Trip Leader?"},
-  {id:15,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: It is ok to have contact with parents during the trip."},
-  {id:16,chapter:"Chapter 2 & Appendix A",q:"If you receive communication from a parent during the trip, what do you do?"},
-  {id:17,chapter:"Chapter 2 & Appendix A",q:"Who do you need to share your location with before your trip?"},
-  {id:18,chapter:"Chapter 2 & Appendix A",q:"In Safety & Preparation, name three of the five people you rely on."},
-  {id:19,chapter:"Chapter 2 & Appendix A",q:"What does the handbook say if you feel prompted to break a rule?"},
-  {id:20,chapter:"Chapter 2 & Appendix A",q:"What is the most stressful and dangerous place on an HXP trip?"},
-  {id:21,chapter:"Chapter 2 & Appendix A",q:"Where are HXP groups most visible and vulnerable?"},
-  {id:22,chapter:"Chapter 2 & Appendix A",q:"What is the most important thing to do at the start of every day?"},
-  {id:23,chapter:"Chapter 2 & Appendix A",q:"Where should you give a mini-training on the Rule of 3 before Builder Briefing?"},
-  {id:24,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: It's okay to brush your teeth with tap water internationally."},
-  {id:25,chapter:"Chapter 2 & Appendix A",q:"What are two reasons loose-fitting pants and closed-toe shoes are required?"},
-  {id:26,chapter:"Chapter 2 & Appendix A",q:"Second only to lodging, where do Builders feel most comfortable and unsafe?"},
-  {id:27,chapter:"Chapter 2 & Appendix A",q:"Builders should never work on or above _____."},
-  {id:28,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: Power tools are allowed only on Mainland trips."},
-  {id:29,chapter:"Chapter 2 & Appendix A",q:"What are the rules about changing in shared spaces?"},
-  {id:30,chapter:"Chapter 2 & Appendix A",q:"What do you do with an unused bedroom in lodging?"},
-  {id:31,chapter:"Chapter 2 & Appendix A",q:"What is the minimum number of people per room?"},
-  {id:32,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: You can invite locals into your lodging for activities."},
-  {id:33,chapter:"Chapter 2 & Appendix A",q:"What should you do with dangerous items in lodging?"},
-  {id:34,chapter:"Chapter 2 & Appendix A",q:"Do not go running unless pre-cleared by whom?"},
-  {id:35,chapter:"Chapter 2 & Appendix A",q:"What is 'the most critical and most important rule'?"},
-  {id:36,chapter:"Chapter 2 & Appendix A",q:"What phrase do Builders use to report sexual harassment?"},
-  {id:37,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: Wrestling or tickling is allowed in lodging."},
-  {id:38,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: It is okay to make a group chat with all of the parents as long as it is not used during the trip."},
-  {id:39,chapter:"Chapter 2 & Appendix A",q:"TRUE or FALSE: You are not allowed to spend time 1 on 1 with a builder after the trip."},
-  {id:40,chapter:"Chapter 2 & Appendix A",q:"What appendix contains the HXP Emergency Plan Flow Chart?"},
-  {id:41,chapter:"Chapter 2 & Appendix A",q:"If there is a catastrophic event (natural disaster, civil unrest, extreme weather), what is the first thing you should do?"},
-  {id:42,chapter:"Chapter 3 & Appendix B",q:"According to the toolkit, what happens when you have high love and high expectations?"},
-  {id:43,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: Withdrawal/deposit refers to money."},
-  {id:44,chapter:"Chapter 3 & Appendix B",q:"Name three Dealbreakers."},
-  {id:45,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: You and your Co decide to send Builders home."},
-  {id:46,chapter:"Chapter 3 & Appendix B",q:"For dress code, how should Trip Leaders dress?"},
-  {id:47,chapter:"Chapter 3 & Appendix B",q:"On an HXP trip, what do your words/actions represent?"},
-  {id:48,chapter:"Chapter 3 & Appendix B",q:"What day are swimming, napping, shopping never allowed?"},
-  {id:49,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: If arriving late the first night, still do Builder Briefing."},
-  {id:50,chapter:"Chapter 3 & Appendix B",q:"According to the toolkit, what is the key to Builder Briefing?"},
-  {id:51,chapter:"Chapter 3 & Appendix B",q:"Fill in the blank: 'The _____, if done right, will transform your trip dynamic.'"},
-  {id:52,chapter:"Chapter 3 & Appendix B",q:"What should you do to emphasize 'the why' behind the rules?"},
-  {id:53,chapter:"Chapter 3 & Appendix B",q:"What script must be read EXACTLY during Builder Briefing?"},
-  {id:54,chapter:"Chapter 3 & Appendix B",q:"If a Builder breaks a Dealbreaker, who pays for their flight home?"},
-  {id:55,chapter:"Chapter 3 & Appendix B",q:"What is HXP's health code Dealbreaker based on?"},
-  {id:56,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: Special circumstances allow Builders to keep phones."},
-  {id:57,chapter:"Chapter 3 & Appendix B",q:"Are shoulder massages between Builders allowed?"},
-  {id:58,chapter:"Chapter 3 & Appendix B",q:"What conversations are absolutely off-limits?"},
-  {id:59,chapter:"Chapter 3 & Appendix B",q:"About how many Builders are sent home each year?"},
-  {id:60,chapter:"Chapter 3 & Appendix B",q:"What must everyone wear in the shower?"},
-  {id:61,chapter:"Chapter 3 & Appendix B",q:"TRUE or FALSE: Fruits like strawberries are okay to eat."},
-  {id:62,chapter:"Chapter 3 & Appendix B",q:"When is it okay to share medication on a trip?"},
-  {id:63,chapter:"Chapter 3 & Appendix B",q:"What is the required 'lights out' time?"},
-  {id:64,chapter:"Chapter 3 & Appendix B",q:"What is the expectation for how we leave every place?"},
-  {id:65,chapter:"Chapter 3 & Appendix B",q:"What does POTA stand for?"},
-  {id:66,chapter:"Chapters 4, 5, 12 & Appendix C",q:"How often should expenses be recorded?"},
-  {id:67,chapter:"Chapters 4, 5, 12 & Appendix C",q:"TRUE or FALSE: Receipts aren't needed if logged."},
-  {id:68,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the daily ATM withdrawal limit?"},
-  {id:69,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What funds pay for souvenirs/snacks?"},
-  {id:70,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Which is NOT covered financially by HXP?"},
-  {id:71,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What can too much downtime lead to? (pg 63)"},
-  {id:72,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Why is fun important on HXP trips? (pg 62)"},
-  {id:73,chapter:"Chapters 4, 5, 12 & Appendix C",q:"TRUE/FALSE – you and your co can choose whether to do the pre-trip builder calls together or separately."},
-  {id:74,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What's one thing you should do on the calls to remember unique things about your builders?"},
-  {id:75,chapter:"Chapters 4, 5, 12 & Appendix C",q:"If a Builder reaches out to tell you they are no longer going on the trip, what should you do?"},
-  {id:76,chapter:"Chapters 4, 5, 12 & Appendix C",q:"How long should 2 on 1's be?"},
-  {id:77,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What will be your most valuable phrase in 2 on 1's?"},
-  {id:78,chapter:"Chapters 4, 5, 12 & Appendix C",q:"In 2 on 1's, ____ more than you talk."},
-  {id:79,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Where should 2 on 1's take place?"},
-  {id:80,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What should you NEVER use 2 on 1 time for?"},
-  {id:81,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Who should be on the pre-trip Builder calls?"},
-  {id:82,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What will you absolutely want to have memorized before your trip to help Builders feel loved?"},
-  {id:83,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Loving your Builders begins with _______."},
-  {id:84,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the first step to scheduling calls with Builders before the trip?"},
-  {id:85,chapter:"Chapters 4, 5, 12 & Appendix C",q:"PRO TIP: If meeting as a group before the trip, what should you do so all Builders can ask questions?"},
-  {id:86,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Where can you access Builder surveys completed before the trip?"},
-  {id:87,chapter:"Chapters 4, 5, 12 & Appendix C",q:"TRUE or FALSE: The bus is a good time to take a nap if you need it."},
-  {id:88,chapter:"Chapters 4, 5, 12 & Appendix C",q:"How long should each 2-on-1 typically last?"},
-  {id:89,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the non-negotiable for the first 10 minutes of every day as a Trip Leader?"},
-  {id:90,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What must you do before starting 2-on-1s on the worksite?"},
-  {id:91,chapter:"Chapters 4, 5, 12 & Appendix C",q:"What is the most amount of 2-on-1s you can do in a day?"},
-  {id:92,chapter:"Chapters 4, 5, 12 & Appendix C",q:"As a Trip Leader, who is the primary focus of your service?"},
-  {id:93,chapter:"Chapters 4, 5, 12 & Appendix C",q:"Where do you go for games and activities?"},
-  {id:94,chapter:"Chapters 6 & 17",q:"What is the framework for the morning devotional schedule?"},
-  {id:95,chapter:"Chapters 6 & 17",q:"How long should Morning Devotion take?"},
-  {id:96,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: Trip Leaders are expected to create their own Morning Devotion lessons."},
-  {id:97,chapter:"Chapters 6 & 17",q:"What is the framework for the evening devotion schedule?"},
-  {id:98,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: Evening activities take priority over Evening Devotion."},
-  {id:99,chapter:"Chapters 6 & 17",q:"How many minutes should Evening Devotion take?"},
-  {id:100,chapter:"Chapters 6 & 17",q:"What 5-minute piece helps Builders transition into Evening Devotion?"},
-  {id:101,chapter:"Chapters 6 & 17",q:"During Evening Devotion, give one way to help a Builder who struggles sharing."},
-  {id:102,chapter:"Chapters 6 & 17",q:"What part of Evening Devotion helps Builders recognize the hand of God?"},
-  {id:103,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: One of HXP's goals is to help Builders prepare to serve missions."},
-  {id:104,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: Trip Leaders should avoid mission stories."},
-  {id:105,chapter:"Chapters 6 & 17",q:"Fill in the blank: Be careful not to overemphasize the _____ of a mission."},
-  {id:106,chapter:"Chapters 6 & 17",q:"TRUE or FALSE: If a temple is closed, your trip skips the temple visit."},
-  {id:107,chapter:"Chapters 6 & 17",q:"When should you ask Builders if they plan to enter the temple?"},
-  {id:108,chapter:"Chapters 6 & 17",q:"What is key in creating a powerful experience for Builders who can't enter the temple?"},
-  {id:109,chapter:"Chapters 6 & 17",q:"With your Builders, what's far better than having the right answers?"},
-  {id:110,chapter:"Chapters 6 & 17",q:"What important rule must be followed while waiting outside the temple?"},
-  {id:111,chapter:"Chapters 7, 8 & Appendix D",q:"What Trip Leader checklist item could save lives?"},
-  {id:112,chapter:"Chapters 7, 8 & Appendix D",q:"Where can you review Builders' health information before the trip?"},
-  {id:113,chapter:"Chapters 7, 8 & Appendix D",q:"TRUE or FALSE: A Builder's medical treatment plan depends on the Trip Leader."},
-  {id:114,chapter:"Chapters 7, 8 & Appendix D",q:"Found in Chapter 7, what is the first step to keeping Builders healthy?"},
-  {id:115,chapter:"Chapters 7, 8 & Appendix D",q:"TRUE or FALSE: You may pet animals if they are not strays."},
-  {id:116,chapter:"Chapters 7, 8 & Appendix D",q:"Name three symptoms that define an ill traveler per the CDC."},
-  {id:117,chapter:"Chapters 7, 8 & Appendix D",q:"When should Trip Leaders have 'the poop talk'?"},
-  {id:118,chapter:"Chapters 7, 8 & Appendix D",q:"If a Builder needs medical attention, who do you call first?"},
-  {id:119,chapter:"Chapters 7, 8 & Appendix D",q:"How many Trip Leaders go to the hospital with a Builder?"},
-  {id:120,chapter:"Chapters 7, 8 & Appendix D",q:"When must your First Aid Kit and epi-pen be with you?"},
-  {id:121,chapter:"Chapters 7, 8 & Appendix D",q:"Where should your First Aid Kit be kept at night?"},
-  {id:122,chapter:"Chapters 7, 8 & Appendix D",q:"What is the main reason loose-fitting pants and closed-toe shoes are required?"},
-  {id:123,chapter:"Chapters 7, 8 & Appendix D",q:"What percentage of high school students report emotional abuse at home?"},
-  {id:124,chapter:"Chapters 7, 8 & Appendix D",q:"Where can you find medical scenarios and criteria?"},
-  {id:125,chapter:"Chapters 7, 8 & Appendix D",q:"What does Appendix D cover?"},
-  {id:126,chapter:"Chapters 7, 8 & Appendix D",q:"What are grounding techniques/square breathing used for?"},
-  {id:127,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Your job on the worksite is to be the hardest worker."},
-  {id:128,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Trip Leaders should bring vendor concerns to their Experience Designer."},
-  {id:129,chapter:"Chapters 9, 10 & 19",q:"What is the role of the foremen on the worksite?"},
-  {id:130,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Foremen are paid less when supervising."},
-  {id:131,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Quantity of work matters more than quality."},
-  {id:132,chapter:"Chapters 9, 10 & 19",q:"If foremen say redo the work, how should you respond?"},
-  {id:133,chapter:"Chapters 9, 10 & 19",q:"Who plays the key role in coordinating ward/branch activities?"},
-  {id:134,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Ward members can be assigned tasks involving money."},
-  {id:135,chapter:"Chapters 9, 10 & 19",q:"Who are you permitted to visit since you don't have missionary visas?"},
-  {id:136,chapter:"Chapters 9, 10 & 19",q:"Why do we split into four groups for FHE/member visits?"},
-  {id:137,chapter:"Chapters 9, 10 & 19",q:"Under what conditions can you buy goods at the church?"},
-  {id:138,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Conservative dress standards are about church modesty."},
-  {id:139,chapter:"Chapters 9, 10 & 19",q:"What must you explain early about your project?"},
-  {id:140,chapter:"Chapters 9, 10 & 19",q:"What term describes shallow, harmful humanitarian work?"},
-  {id:141,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Builders can throw away shoes in-country."},
-  {id:142,chapter:"Chapters 9, 10 & 19",q:"Name two of HXP's sustainable policies."},
-  {id:143,chapter:"Chapters 9, 10 & 19",q:"What is the rule for photos with locals?"},
-  {id:144,chapter:"Chapters 9, 10 & 19",q:"What should Builders wear to the airport?"},
-  {id:145,chapter:"Chapters 9, 10 & 19",q:"How many hours before an international flight should your group arrive?"},
-  {id:146,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: The group meetup spot should be after security."},
-  {id:147,chapter:"Chapters 9, 10 & 19",q:"If it comes down to bags or the flight, what do you do?"},
-  {id:148,chapter:"Chapters 9, 10 & 19",q:"TRUE or FALSE: Each Builder checks themselves in individually."},
-  {id:149,chapter:"Chapters 9, 10 & 19",q:"What can long layovers or delays be a great opportunity for?"},
-  {id:150,chapter:"Chapters 9, 10 & 19",q:"Tell Builders to designate one spot in their bag for _____."},
-  {id:151,chapter:"Chapters 9, 10 & 19",q:"When do you collect Builders' phones for digital detox?"},
-  {id:152,chapter:"Chapters 9, 10 & 19",q:"As soon as you get off the plane, what should Builders check for?"},
-  {id:153,chapter:"Chapters 9, 10 & 19",q:"When is your trip officially over?"},
-  {id:154,chapter:"Chapters 9, 10 & 19",q:"Who do you @ in WhatsApp when the entire group has landed?"},
-  {id:155,chapter:"Chapters 13, 15 & Appendix E",q:"What should you always do with your Co when making trip-related decisions?"},
-  {id:156,chapter:"Chapters 13, 15 & Appendix E",q:"What Co-dynamic should be avoided?"},
-  {id:157,chapter:"Chapters 13, 15 & Appendix E",q:"What objective should ultimately unite you and your Co?"},
-  {id:158,chapter:"Chapters 13, 15 & Appendix E",q:"In the toolkit, name two best practices to strengthen Co-dynamics."},
-  {id:159,chapter:"Chapters 13, 15 & Appendix E",q:"What is the recommended length for a Nightly Huddle with your co?"},
-  {id:160,chapter:"Chapters 13, 15 & Appendix E",q:"What is the main purpose of a Parent Builder?"},
-  {id:161,chapter:"Chapters 13, 15 & Appendix E",q:"Name three of the eight roles of Parent Builders."},
-  {id:162,chapter:"Chapters 13, 15 & Appendix E",q:"TRUE or FALSE: A Parent Builder may stay behind with only their own sick child."},
-  {id:163,chapter:"Chapters 13, 15 & Appendix E",q:"What are the three main goals of Nightly Huddle? (pg 250)"},
-  {id:164,chapter:"Chapters 13, 15 & Appendix E",q:"How many nights do you do Nightly Huddle?"},
-  {id:165,chapter:"Chapters 13, 15 & Appendix E",q:"What should you ask Parent Builders to be extra aware of during Nightly Huddle?"},
-  {id:166,chapter:"Chapters 13, 15 & Appendix E",q:"What appendix outlines the Nightly Huddle? (pg 250)"},
-  {id:167,chapter:"Chapters 13, 15 & Appendix E",q:"When should the Parent Builder Huddle take place?"},
-  {id:168,chapter:"Chapters 11, 14 & 16",q:"When are we most worried about rule-breaking?"},
-  {id:169,chapter:"Chapters 11, 14 & 16",q:"TRUE or FALSE: Do Builder Briefing if arriving very late the first night."},
-  {id:170,chapter:"Chapters 11, 14 & 16",q:"What is the final special devotional called?"},
-  {id:171,chapter:"Chapters 11, 14 & 16",q:"What is the action plan that prevents slipping back into old habits?"},
-  {id:172,chapter:"Chapters 11, 14 & 16",q:"TRUE OR FALSE: Builders do the post-trip survey after they get their phones back."},
-  {id:173,chapter:"Chapters 11, 14 & 16",q:"Who's phone(s) do the builders do the post-trip survey on?"},
-  {id:174,chapter:"Chapters 11, 14 & 16",q:"Name two situations when you must absolutely call the office."},
-  {id:175,chapter:"Chapters 11, 14 & 16",q:"TRUE or FALSE: In an emergency, the first person you contact is your Experience Designer."},
-  {id:176,chapter:"Chapters 11, 14 & 16",q:"What is the Trip Leader Support Line phone number?"},
-  {id:177,chapter:"Chapters 11, 14 & 16",q:"Who helps coordinate logistics and communication in-country?"},
-  {id:178,chapter:"Chapters 11, 14 & 16",q:"TRUE or FALSE: HXP/Trip Leaders pay medical bills if a Builder goes to the doctor."},
-  {id:179,chapter:"Chapters 11, 14 & 16",q:"If you have vendor problems, who do you contact first?"},
-  {id:180,chapter:"Chapters 11, 14 & 16",q:"Where can you find emergency medical and protocol breakdowns?"},
-  {id:181,chapter:"Chapters 11, 14 & 16",q:"What mindset focuses on optimizing opportunities rather than creating new ones?"},
-  {id:182,chapter:"Chapters 11, 14 & 16",q:"In the Rainstorms chapter, what does 'twbm' stand for?"},
-  {id:183,chapter:"Chapters 11, 14 & 16",q:"Data has shown that Trip Leaders who _____ had an easier transition."},
-  {id:184,chapter:"Chapters 11, 14 & 16",q:"What phrase should be erased from your vocabulary on repeat trips?"},
-  {id:185,chapter:"Chapters 11, 14 & 16",q:"If doing two trips, what should you do daily for your other group?"},
-  {id:186,chapter:"Chapters 11, 14 & 16",q:"What is important to avoid when leaving your first group?"},
-  {id:187,chapter:"Chapters 11, 14 & 16",q:"On whose phone will the builders take the post-trip survey?"},
-  {id:188,chapter:"Chapters 11, 14 & 16",q:"When on the trip will the builders take the post trip survey?"},
+  {"id":1,"chapter":"Chapter 1 - Positive Peer Groups","pg":"4","q":"What are two ways you as a Trip Leader can help create a positive peer group BEFORE the trip?"},
+  {"id":2,"chapter":"Chapter 1 - Positive Peer Groups","pg":"6","q":"What is one way suggested in the toolkit that you can continue facilitating a positive peer group after the trip?"},
+  {"id":3,"chapter":"Chapter 1 - Positive Peer Groups","pg":"9","q":"What are THREE ways you can prevent cliques forming?"},
+  {"id":4,"chapter":"Chapter 1 - Positive Peer Groups","pg":"11","q":"Who can you mirror a positive peer group with before, during, and after your trip?"},
+  {"id":5,"chapter":"Chapter 1 - Positive Peer Groups","pg":"10","q":"What's one thing you can do as a Trip Leader when cliques still form?"},
+  {"id":6,"chapter":"Chapter 1 - Positive Peer Groups","pg":"4","q":"Previously, committees were only a suggestion. They are now an ______?"},
+  {"id":7,"chapter":"Chapter 1 - Positive Peer Groups","pg":"9","q":"What are three of the 7 main ideas listed in the toolkit for preventing cliques?"},
+  {"id":8,"chapter":"Chapter 1 - Positive Peer Groups","pg":"9","q":"No one will want to change room assignments halfway through the trip, what should you do to prepare the Builders for it?"},
+  {"id":9,"chapter":"Chapter 1 - Positive Peer Groups","pg":"9","q":"What does randomizing seating arrangements help avoid?"},
+  {"id":194,"chapter":"Chapter 1 - Positive Peer Groups","pg":"3","q":"Who's life-changing influence will most affect the future life decisions of your Builders?"},
+  {"id":195,"chapter":"Chapter 1 - Positive Peer Groups","pg":"3","q":"TRUE or FALSE: With people who are very different from one another, positive peer groups form naturally without extra Trip Leader help."},
+  {"id":196,"chapter":"Chapter 1 - Positive Peer Groups","pg":"4","q":"One of the big secrets to unifying Builders is dividing them into _____."},
+  {"id":197,"chapter":"Chapter 1 - Positive Peer Groups","pg":"6","q":"When should Trip Leaders establish the first group reunion?"},
+  {"id":198,"chapter":"Chapter 1 - Positive Peer Groups","pg":"1","q":"What is the name and number of the chapter that helps with handling cliques?"},
+  {"id":199,"chapter":"Chapter 1 - Positive Peer Groups","pg":"9","q":"When should you change room assignments?"},
+  {"id":200,"chapter":"Chapter 1 - Positive Peer Groups","pg":"2","q":"TRUE/FALSE - One of the biggest factors in the builder's conversion is belonging to a “positive peer group”"},
+  {"id":10,"chapter":"Chapter 2 - Safety","pg":"16","q":"What is your number one priority as a Trip Leader?"},
+  {"id":11,"chapter":"Chapter 2 - Safety","pg":"19","q":"TRUE or FALSE: It is ok to have contact with parents during the trip."},
+  {"id":12,"chapter":"Chapter 2 - Safety","pg":"19","q":"If you receive communication from a parent during the trip, what do you do?"},
+  {"id":13,"chapter":"Chapter 2 - Safety","pg":"18","q":"Who do you need to share your location with before your trip?"},
+  {"id":14,"chapter":"Chapter 2 - Safety","pg":"20","q":"In the safety and preparation chapter, name three of the five people you can rely on."},
+  {"id":15,"chapter":"Chapter 2 - Safety","pg":"21","q":"What does the handbook say if you feel prompted to break a rule?"},
+  {"id":16,"chapter":"Chapter 2 - Safety","pg":"21","q":"What is one of the most “stressful and dangerous places” on an HXP trip?"},
+  {"id":17,"chapter":"Chapter 2 - Safety","pg":"21","q":"Where are HXP groups most visible and vulnerable?"},
+  {"id":18,"chapter":"Chapter 2 - Safety","pg":"21","q":"What is the most important thing to do at the start of every day?"},
+  {"id":19,"chapter":"Chapter 2 - Safety","pg":"22","q":"Where should you give a mini-training on the Rule of 3 before Builder Briefing?"},
+  {"id":20,"chapter":"Chapter 2 - Safety","pg":"23","q":"What kind of water should you never brush your teeth with?"},
+  {"id":21,"chapter":"Chapter 2 - Safety","pg":"24","q":"What are two reasons loose-fitting pants and closed-toe shoes are required?"},
+  {"id":22,"chapter":"Chapter 2 - Safety","pg":"24","q":"Second only to lodging, where do Builders feel the most comfortable - and therefore often forget the rules and get lax about safety?"},
+  {"id":23,"chapter":"Chapter 2 - Safety","pg":"25","q":"Builders should never work on or above _____."},
+  {"id":24,"chapter":"Chapter 2 - Safety","pg":"25","q":"TRUE or FALSE: Power tools are allowed only on specific Mainland trips."},
+  {"id":25,"chapter":"Chapter 2 - Safety","pg":"26","q":"What are the rules about changing in shared spaces?"},
+  {"id":26,"chapter":"Chapter 2 - Safety","pg":"26","q":"TRUE/FALSE: As long as the shower is an outdoor communal shower in full view of everyone, it's okay for members of the group to shower together as long as they are in swimsuits."},
+  {"id":27,"chapter":"Chapter 2 - Safety","pg":"26","q":"What do you do with an unused bedroom in lodging?"},
+  {"id":28,"chapter":"Chapter 2 - Safety","pg":"26","q":"What is the minimum number of people per room?"},
+  {"id":29,"chapter":"Chapter 2 - Safety","pg":"27","q":"TRUE or FALSE: You can invite locals into your lodging for activities."},
+  {"id":30,"chapter":"Chapter 2 - Safety","pg":"27","q":"What should you do with dangerous items in lodging?"},
+  {"id":31,"chapter":"Chapter 2 - Safety","pg":"27","q":"Do not go running unless pre-cleared by whom?"},
+  {"id":32,"chapter":"Chapter 2 - Safety","pg":"28","q":"What is “the most critical and most important rule”?"},
+  {"id":33,"chapter":"Chapter 2 - Safety","pg":"29","q":"What phrase should we encourage Builders to use for sexual harassment monitoring?"},
+  {"id":34,"chapter":"Chapter 2 - Safety","pg":"31","q":"TRUE or FALSE: Wrestling or tickling is allowed as long as its between two people of the same gender."},
+  {"id":35,"chapter":"Chapter 2 - Safety","pg":"30","q":"When is the one time it is okay for two people to be alone together?"},
+  {"id":36,"chapter":"Chapter 2 - Safety","pg":"19","q":"TRUE or FALSE: It is okay to make a group chat with all of the parents (for passing on information, getting letters for builders etc.) as long as it is not used during the trip."},
+  {"id":37,"chapter":"Chapter 2 - Safety","pg":"17","q":"TRUE or FALSE: You are not allowed to spend time 1 on 1 with a builder after the trip (ie. go to lunch or dinner)?"},
+  {"id":40,"chapter":"Chapter 2 - Safety","pg":"26","q":"What should you do if the CO2 detectors go off in your lodging?"},
+  {"id":41,"chapter":"Chapter 2 - Safety","pg":"23","q":"TRUE/FALSE: During sightseeing, diving or flipping into water is okay as long as the tour guides say it's safe to do so."},
+  {"id":42,"chapter":"Chapter 2 - Safety","pg":"34","q":"TRUE/FALSE: It's okay for Builders to buy a weapon on the trip as long as they put it in their bag right when they get back to the lodging."},
+  {"id":59,"chapter":"Chapter 2 - Safety","pg":"31","q":"What types of conversations are absolutely out of place on an HXP trip?"},
+  {"id":43,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"39","q":"According to the toolkit, what is created when you have high love and high expectations?"},
+  {"id":44,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"45","q":"When is the perfect opportunity to establish yourself as a PAL?"},
+  {"id":45,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"43","q":"TRUE or FALSE: In chapter 3, the “Withdrawal/deposit” phrase refers to money."},
+  {"id":46,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"43","q":"Name three Dealbreakers."},
+  {"id":47,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"44","q":"TRUE or FALSE: It's you and your Co's choice whether to send Builders home or not."},
+  {"id":48,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"40","q":"What are the three things that a teenage brain wants/seeks?"},
+  {"id":49,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"45","q":"For dress code, how should Trip Leaders dress at all times?"},
+  {"id":50,"chapter":"Chapter 3 - Peer Adult Leaders","pg":"46","q":"What day on the trip should you avoid swimming, going to the store, and sitting around/napping all day?"},
+  {"id":66,"chapter":"Chapter 4 - Money, Money, Money","pg":"54","q":"How often should expenses be recorded?"},
+  {"id":67,"chapter":"Chapter 4 - Money, Money, Money","pg":"53","q":"Whenever possible, what should you use to pay?"},
+  {"id":68,"chapter":"Chapter 4 - Money, Money, Money","pg":"53","q":"TRUE or FALSE: You can toss receipts if they've been uploaded to the bill app."},
+  {"id":69,"chapter":"Chapter 4 - Money, Money, Money","pg":"53","q":"Where must you fill out a cash form any time you withdraw cash from an ATM or spend it?"},
+  {"id":70,"chapter":"Chapter 4 - Money, Money, Money","pg":"54","q":"What is the one exception for when you should keep and bring back the physical receipt?"},
+  {"id":71,"chapter":"Chapter 4 - Money, Money, Money","pg":"53","q":"What is the daily ATM withdrawal limit?"},
+  {"id":72,"chapter":"Chapter 4 - Money, Money, Money","pg":"57","q":"What funds pay for souvenirs/personal treats?"},
+  {"id":73,"chapter":"Chapter 5 - Fun and Games","pg":"63","q":"What can too much downtime lead to?"},
+  {"id":74,"chapter":"Chapter 5 - Fun and Games","pg":"62","q":"The toolkit says “Fun is critical to a trip, but is a means to an end.” What is that end?"},
+  {"id":92,"chapter":"Chapter 6 - Daily Devotion","pg":"72","q":"What is the framework for the morning devotional schedule?"},
+  {"id":94,"chapter":"Chapter 6 - Daily Devotion","pg":"72","q":"How long should Morning Devotion take?"},
+  {"id":95,"chapter":"Chapter 6 - Daily Devotion","pg":"72","q":"TRUE or FALSE: Trip Leaders are expected to create their own Morning Devotion lessons."},
+  {"id":96,"chapter":"Chapter 6 - Daily Devotion","pg":"74","q":"What is the framework for the evening devotion schedule?"},
+  {"id":97,"chapter":"Chapter 6 - Daily Devotion","pg":"74","q":"TRUE or FALSE: Evening activities take priority over Evening Devotion."},
+  {"id":98,"chapter":"Chapter 6 - Daily Devotion","pg":"74","q":"How many minutes should Evening Devotion take?"},
+  {"id":99,"chapter":"Chapter 6 - Daily Devotion","pg":"74","q":"What 5-minute part of evening devotion helps Builders transition from the high energy of the evening activity into Evening Devotion?"},
+  {"id":100,"chapter":"Chapter 6 - Daily Devotion","pg":"74","q":"What should the first evening devotional be about?"},
+  {"id":101,"chapter":"Chapter 6 - Daily Devotion","pg":"75","q":"What part of Evening Devotion helps Builders recognize the hand of God throughout their day?"},
+  {"id":102,"chapter":"Chapter 6 - Daily Devotion","pg":"75","q":"Finish the sentence from the Daily processing section of the toolkit: “Before builders start writing, give them a _____.”"},
+  {"id":103,"chapter":"Chapter 6 - Daily Devotion","pg":"79","q":"Finish the phrase from the Daily Devotion chapter of the toolkit: “One of HXP's biggest goals is to help Builders decide to and prepare to _____”"},
+  {"id":104,"chapter":"Chapter 6 - Daily Devotion","pg":"79","q":"TRUE or FALSE: Trip Leaders should avoid mission stories."},
+  {"id":105,"chapter":"Chapter 6 - Daily Devotion","pg":"79","q":"Fill in the blank: Be careful not to overemphasize the _____ of a mission."},
+  {"id":111,"chapter":"Chapter 6 - Daily Devotion","pg":"71","q":"What suggestion does the toolkit give on how to increase energy during daily devotion?"},
+  {"id":112,"chapter":"Chapter 6 - Daily Devotion","pg":"72","q":"Finish this phrase from the daily devotion chapter: “...for the word to work, they gotta ______!”"},
+  {"id":113,"chapter":"Chapter 6 - Daily Devotion","pg":"74","q":"TRUE/FALSE: As a Trip Leader, you should give the power thought every night during Evening devo."},
+  {"id":114,"chapter":"Chapter 6 - Daily Devotion","pg":"76-77","q":"What is one of the purposes listed for why we do the Letters Home activity on trips?"},
+  {"id":115,"chapter":"Chapter 6 - Daily Devotion","pg":"76","q":"On trips, is the letters home activity optional or required?"},
+  {"id":116,"chapter":"Chapter 6 - Daily Devotion","pg":"76-78","q":"What are two “special devo ideas” as listed in chapter 6 of the toolkit?"},
+  {"id":117,"chapter":"Chapter 6 - Daily Devotion","pg":"78","q":"Before jumping right into a Q&A (with missionaries, local mission leaders, etc), what should you do to prime your Builders?"},
+  {"id":81,"chapter":"Chapter 7 - Medical Tips","pg":"91","q":"What should you do with your First Aid Kit, especially at night?"},
+  {"id":126,"chapter":"Chapter 7 - Medical Tips","pg":"84","q":"For Trip Leaders, what required certification could possibly save lives?"},
+  {"id":127,"chapter":"Chapter 7 - Medical Tips","pg":"85","q":"Where can you review Builders' health information before the trip?"},
+  {"id":128,"chapter":"Chapter 7 - Medical Tips","pg":"85","q":"TRUE or FALSE: A Builder's medical treatment plan depends on the Trip Leader."},
+  {"id":129,"chapter":"Chapter 7 - Medical Tips","pg":"86","q":"According to Chapter 7, what is the first step to keeping Builders healthy?"},
+  {"id":130,"chapter":"Chapter 7 - Medical Tips","pg":"86","q":"TRUE or FALSE: You may pet animals if they are not strays."},
+  {"id":131,"chapter":"Chapter 7 - Medical Tips","pg":"86","q":"When should Trip Leaders have “the poop talk”?"},
+  {"id":132,"chapter":"Chapter 7 - Medical Tips","pg":"90","q":"How many Trip Leaders should go to the hospital with a Builder?"},
+  {"id":133,"chapter":"Chapter 7 - Medical Tips","pg":"90","q":"Who should you contact if you suspect medical attention is required?"},
+  {"id":134,"chapter":"Chapter 7 - Medical Tips","pg":"91","q":"When must your “main squeeze” First Aid Kit and epi-pen be with you?"},
+  {"id":135,"chapter":"Chapter 7 - Medical Tips","pg":"91","q":"Who can administer medication from the FAK?"},
+  {"id":136,"chapter":"Chapter 7 - Medical Tips","pg":"88 and 91","q":"What must you do EVERY time you administer medication (even over the counter)?"},
+  {"id":137,"chapter":"Chapter 7 - Medical Tips","pg":"88","q":"What is a good rule of thumb when deciding whether or not you can administer certain medications from the FAK?"},
+  {"id":140,"chapter":"Chapter 7 - Medical Tips","pg":"87 and 241","q":"What does Appendix D cover?"},
+  {"id":138,"chapter":"Chapter 8 - Mental Health","pg":"96","q":"What percentage of high school students report emotional abuse at home?"},
+  {"id":141,"chapter":"Chapter 8 - Mental Health","pg":"97","q":"What are two of the suggested ways you can help a Builder during a panic attack?"},
+  {"id":142,"chapter":"Chapter 8 - Mental Health","pg":"99","q":"If Builders share about current or past abuse, what are you required to do?"},
+  {"id":143,"chapter":"Chapter 8 - Mental Health","pg":"99","q":"What are two signs or symptoms of eating disorders?"},
+  {"id":144,"chapter":"Chapter 9 - Working with the Locals","pg":"107","q":"TRUE or FALSE: Your job on the worksite is to be the hardest worker."},
+  {"id":145,"chapter":"Chapter 9 - Working with the Locals","pg":"107","q":"Who should you bring issues/concerns with vendors to?"},
+  {"id":146,"chapter":"Chapter 9 - Working with the Locals","pg":"107","q":"What is the role of the foremen on the worksite?"},
+  {"id":147,"chapter":"Chapter 9 - Working with the Locals","pg":"108","q":"TRUE or FALSE: Foremen are paid less when supervising your Builders instead of working."},
+  {"id":148,"chapter":"Chapter 9 - Working with the Locals","pg":"109","q":"TRUE or FALSE: Quantity of work matters more than quality."},
+  {"id":149,"chapter":"Chapter 9 - Working with the Locals","pg":"109","q":"If foremen say redo the work, how should you respond?"},
+  {"id":150,"chapter":"Chapter 9 - Working with the Locals","pg":"111","q":"Who plays the key role in meeting with the Stake President, Bishops, and Branch Presidents?"},
+  {"id":151,"chapter":"Chapter 9 - Working with the Locals","pg":"112","q":"TRUE or FALSE: Ward members/locals can be assigned tasks involving monetary value."},
+  {"id":152,"chapter":"Chapter 9 - Working with the Locals","pg":"113","q":"Who are you permitted to visit/teach since you don't have missionary visas?"},
+  {"id":153,"chapter":"Chapter 9 - Working with the Locals","pg":"114","q":"Why do we split into four groups for FHE/member visits?"},
+  {"id":154,"chapter":"Chapter 9 - Working with the Locals","pg":"115","q":"TRUE or FALSE: Conservative dress standards that we adhere to is not about church standard issues."},
+  {"id":155,"chapter":"Chapter 10 - Responsible Humanitarians","pg":"122","q":"What term describes humanitarian work that focuses on the experience of the volunteer instead of the needs and goals of the local community?"},
+  {"id":156,"chapter":"Chapter 10 - Responsible Humanitarians","pg":"126","q":"TRUE or FALSE: Builders can throw away shoes in-country."},
+  {"id":157,"chapter":"Chapter 10 - Responsible Humanitarians","pg":"125","q":"Name two elements of HXP's \"Responsible Humanitarianism” as listed in the toolkit?"},
+  {"id":158,"chapter":"Chapter 10 - Responsible Humanitarians","pg":"126","q":"What is encouraged before taking photos on trips?"},
+  {"id":121,"chapter":"Chapter 11 - The End","pg":"139","q":"Fill in the blank: “Data has shown that Trip Leaders who made time to make their _____ with their second group had a much easier time transitioning to their new group.”"},
+  {"id":122,"chapter":"Chapter 11 - The End","pg":"140","q":"What phrase should be erased from your vocabulary on repeat trips?"},
+  {"id":123,"chapter":"Chapter 11 - The End","pg":"140","q":"If doing two trips, what should you take 5 minutes to do each day for your other group?"},
+  {"id":124,"chapter":"Chapter 11 - The End","pg":"140","q":"What is important to avoid when leaving your first group?"},
+  {"id":125,"chapter":"Chapter 11 - The End","pg":"135","q":"When on the trip will the builders take the post trip survey?"},
+  {"id":183,"chapter":"Chapter 11 - The End","pg":"137","q":"What is the final special devotional called?"},
+  {"id":184,"chapter":"Chapter 11 - The End","pg":"136","q":"Fill in the blank of this section heading from Chapter 11: The End: “What is the ____ you want your Builders to leave with?”"},
+  {"id":185,"chapter":"Chapter 11 - The End","pg":"138","q":"What is the action plan that prevents slipping back into old habits?"},
+  {"id":186,"chapter":"Chapter 11 - The End","pg":"135","q":"TRUE OR FALSE: Builders do the post-trip survey after they get their phones back."},
+  {"id":187,"chapter":"Chapter 11 - The End","pg":"135","q":"Who's phone(s) do the builders do the post-trip survey on?"},
+  {"id":192,"chapter":"Chapter 11 - The End","pg":"134","q":"On your last night, even though you will be exhausted, you must do what until you're sure your last Builder has gone to sleep?"},
+  {"id":75,"chapter":"Chapter 12 - Loving Your Builders","pg":"147","q":"TRUE/FALSE - you and your co can choose whether to do the pre-trip builder calls together or separately."},
+  {"id":76,"chapter":"Chapter 12 - Loving Your Builders","pg":"147","q":"What's one thing you should do on the calls to remember unique things about your builders?"},
+  {"id":77,"chapter":"Chapter 12 - Loving Your Builders","pg":"148","q":"If a Builder reaches out to tell you they are no longer going on the trip, what should you do?"},
+  {"id":78,"chapter":"Chapter 12 - Loving Your Builders","pg":"152","q":"How long should 2 on 1's be?"},
+  {"id":79,"chapter":"Chapter 12 - Loving Your Builders","pg":"154","q":"What will be your most valuable phrase in 2 on 1's?"},
+  {"id":80,"chapter":"Chapter 12 - Loving Your Builders","pg":"154","q":"In 2 on 1's, ____ more than you talk."},
+  {"id":82,"chapter":"Chapter 12 - Loving Your Builders","pg":"153","q":"Where should 2 on 1's take place?"},
+  {"id":83,"chapter":"Chapter 12 - Loving Your Builders","pg":"153","q":"What should you NEVER use 2 on1 time for?"},
+  {"id":84,"chapter":"Chapter 12 - Loving Your Builders","pg":"147","q":"What will you absolutely want to have memorized before your trip to help Builders feel loved?"},
+  {"id":85,"chapter":"Chapter 12 - Loving Your Builders","pg":"147","q":"Loving your Builders begins with _______."},
+  {"id":86,"chapter":"Chapter 12 - Loving Your Builders","pg":"150","q":"Where can you access Builder surveys completed before the trip?"},
+  {"id":87,"chapter":"Chapter 12 - Loving Your Builders","pg":"151","q":"TRUE or FALSE: The bus is a good time to take a nap if you need it."},
+  {"id":88,"chapter":"Chapter 12 - Loving Your Builders","pg":"150","q":"What is the non-negotiable for the first 10 minutes of every day as a Trip Leader?"},
+  {"id":89,"chapter":"Chapter 12 - Loving Your Builders","pg":"154","q":"Above all other advice you could give, who should you always point builders to in 2 on 1's?"},
+  {"id":90,"chapter":"Chapter 12 - Loving Your Builders","pg":"151","q":"As a Trip Leader, who is the primary focus of your service?"},
+  {"id":93,"chapter":"Chapter 12 - Loving Your Builders","pg":"155","q":"What are the three things you should do when builders open up to you about things like mental health issues, addictions, or even heavier topics?"},
+  {"id":169,"chapter":"Chapter 13 - Working with Your Co-Leader","pg":"163","q":"Who should you always make decisions with on your trip?"},
+  {"id":170,"chapter":"Chapter 13 - Working with Your Co-Leader","pg":"164","q":"What Co-dynamic should you never allow to happen between you and your Co?"},
+  {"id":171,"chapter":"Chapter 13 - Working with Your Co-Leader","pg":"165","q":"What objective should ultimately unite you and your Co?"},
+  {"id":118,"chapter":"Chapter 14 - Trip Leader Support","pg":"172","q":"During what hours of the day can you call TL Support?"},
+  {"id":188,"chapter":"Chapter 14 - Trip Leader Support","pg":"172","q":"Name two of the 6 listed situations when you are required to call the office."},
+  {"id":189,"chapter":"Chapter 14 - Trip Leader Support","pg":"172","q":"TRUE or FALSE: In an emergency, the first person you contact is your Experience Designer."},
+  {"id":190,"chapter":"Chapter 14 - Trip Leader Support","pg":"171","q":"What is the Trip Leader Support Line phone number?"},
+  {"id":191,"chapter":"Chapter 14 - Trip Leader Support","pg":"174","q":"Who is someone in-country that you can ask if you have any questions about worksite materials (ex: whether or not you have enough, future shipments, etc.)"},
+  {"id":173,"chapter":"Chapter 15 - Loving & Learning from Parent Builders","pg":"181","q":"What is the main purpose of a Parent Builder?"},
+  {"id":174,"chapter":"Chapter 15 - Loving & Learning from Parent Builders","pg":"182-183","q":"Name three of the eight roles of Parent Builders as listed in the toolkit."},
+  {"id":175,"chapter":"Chapter 15 - Loving & Learning from Parent Builders","pg":"187","q":"TRUE or FALSE: A Parent Builder may stay behind alone with only their own sick child."},
+  {"id":176,"chapter":"Chapter 15 - Loving & Learning from Parent Builders","pg":"184","q":"What should you do pre-trip to get to know your Parent Builders?"},
+  {"id":182,"chapter":"Chapter 15 - Loving & Learning from Parent Builders","pg":"188","q":"TRUE/FALSE: It's okay for Builders to use Parent Builders/TL's phones briefly to look something up."},
+  {"id":119,"chapter":"Chapter 16 - Dancing in the Rain","pg":"196","q":"What mindset focuses on optimizing opportunities rather than creating new ones?"},
+  {"id":120,"chapter":"Chapter 16 - Dancing in the Rain","pg":"197","q":"In the Rainstorms chapter, what does “twbm” stand for?"},
+  {"id":106,"chapter":"Chapter 17 - The Temple","pg":"202","q":"TRUE or FALSE: If a temple is closed, your trip skips the temple visit."},
+  {"id":107,"chapter":"Chapter 17 - The Temple","pg":"202","q":"When should you ask Builders if they plan to enter the temple?"},
+  {"id":108,"chapter":"Chapter 17 - The Temple","pg":"203","q":"What is key in creating a powerful experience for Builders who can't enter the temple?"},
+  {"id":109,"chapter":"Chapter 17 - The Temple","pg":"204","q":"With your Builders, what's far better than having the right answers?"},
+  {"id":110,"chapter":"Chapter 17 - The Temple","pg":"204","q":"What rule must be followed while waiting outside the temple?"},
+  {"id":159,"chapter":"Chapter 19 - The Airport","pg":"219","q":"What should Builders wear to the airport?"},
+  {"id":160,"chapter":"Chapter 19 - The Airport","pg":"219","q":"How many hours before an international flight should your group arrive?"},
+  {"id":161,"chapter":"Chapter 19 - The Airport","pg":"219","q":"TRUE or FALSE: The group meetup spot should be after security."},
+  {"id":162,"chapter":"Chapter 19 - The Airport","pg":"220","q":"If it comes down to getting bags or getting on the flight, what should you do?"},
+  {"id":163,"chapter":"Chapter 19 - The Airport","pg":"220","q":"TRUE or FALSE: Each Builder checks themselves in individually."},
+  {"id":164,"chapter":"Chapter 19 - The Airport","pg":"221","q":"What can long layovers or delays be a great opportunity for?"},
+  {"id":165,"chapter":"Chapter 19 - The Airport","pg":"221","q":"Tell Builders to designate one spot in their backpack or fannypack for their _____."},
+  {"id":166,"chapter":"Chapter 19 - The Airport","pg":"221","q":"When do you collect Builders' phones for digital detox?"},
+  {"id":167,"chapter":"Chapter 19 - The Airport","pg":"221","q":"As soon as you get off the plane, you as the Trip Leader should get off the flight first, stand right in front of the gate, and ask what?"},
+  {"id":168,"chapter":"Chapter 19 - The Airport","pg":"222","q":"When is your trip over?"},
+  {"id":38,"chapter":"Appendix A - Emergency Flow Chart","pg":"226","q":"What appendix contains the HXP Emergency Plan Flow Chart?"},
+  {"id":39,"chapter":"Appendix A - Emergency Flow Chart","pg":"226","q":"If there is a catastrophic event, ex. natural disaster, civil unrest, extreme weather, what is the first thing you should do?"},
+  {"id":51,"chapter":"Appendix B - Builder Briefing Outline","pg":"227","q":"TRUE or FALSE: If arriving late the first night, still do Builder Briefing."},
+  {"id":52,"chapter":"Appendix B - Builder Briefing Outline","pg":"227","q":"According to the toolkit, what is the key to Builder Briefing?"},
+  {"id":53,"chapter":"Appendix B - Builder Briefing Outline","pg":"227","q":"Fill in the blank: “The _____, if done right, will transform your trip...”"},
+  {"id":54,"chapter":"Appendix B - Builder Briefing Outline","pg":"228","q":"What should you use to emphasize “the why” behind why the rules can be helpful?"},
+  {"id":55,"chapter":"Appendix B - Builder Briefing Outline","pg":"231","q":"What script must be read EXACTLY during Builder Briefing?"},
+  {"id":56,"chapter":"Appendix B - Builder Briefing Outline","pg":"228","q":"If a Builder breaks a Dealbreaker, who pays for their flight home?"},
+  {"id":57,"chapter":"Appendix B - Builder Briefing Outline","pg":"230","q":"What is HXP's health code Dealbreaker based on?"},
+  {"id":58,"chapter":"Appendix B - Builder Briefing Outline","pg":"229-230","q":"TRUE or FALSE: Special circumstances allow Builders to keep phones."},
+  {"id":60,"chapter":"Appendix B - Builder Briefing Outline","pg":"232","q":"What should everyone wear in the shower?"},
+  {"id":61,"chapter":"Appendix B - Builder Briefing Outline","pg":"232","q":"TRUE or FALSE: Fruits like strawberries are okay to eat."},
+  {"id":62,"chapter":"Appendix B - Builder Briefing Outline","pg":"233","q":"When is it okay to share medication on a trip?"},
+  {"id":63,"chapter":"Appendix B - Builder Briefing Outline","pg":"233","q":"What is the required “lights out” time?"},
+  {"id":64,"chapter":"Appendix B - Builder Briefing Outline","pg":"234","q":"What is the expectation for how we leave every place?"},
+  {"id":65,"chapter":"Appendix B - Builder Briefing Outline","pg":"234","q":"What does POTA stand for?"},
+  {"id":193,"chapter":"Appendix B - Builder Briefing Outline","pg":"229","q":"TRUE/FALSE: There are no circumstances in which boys and girls can go into each other's rooms."},
+  {"id":91,"chapter":"Appendix C - Fun and Games","pg":"237","q":"Where do you go for games and activities?"},
+  {"id":139,"chapter":"Appendix D - Medical Scenarios","pg":"241","q":"Where can you find detailed medical scenarios and criteria?"},
+  {"id":172,"chapter":"Appendix E - Daily Huddle Outline","pg":"250","q":"What is the recommended length for a Nightly CO Huddle?"},
+  {"id":177,"chapter":"Appendix E - Daily Huddle Outline","pg":"250","q":"What are the three main goals of Nightly Huddle?"},
+  {"id":178,"chapter":"Appendix E - Daily Huddle Outline","pg":"250","q":"How many nights do you do Nightly Huddle?"},
+  {"id":179,"chapter":"Appendix E - Daily Huddle Outline","pg":"251","q":"What should you be careful and aware of during the Nightly Huddle?"},
+  {"id":180,"chapter":"Appendix E - Daily Huddle Outline","pg":"250","q":"When does the Daily Huddle with the Parent Builders take place?"},
+  {"id":181,"chapter":"Appendix E - Daily Huddle Outline","pg":"250","q":"What appendix outlines the Nightly Huddle?"}
 ];
 
 // ═══════════════════════════════════════════════════
@@ -1665,7 +1689,7 @@ function renderSummary() {
 
 function studyFilterLabel() {
   if (ST.huntOnly) return 'Hunting List';
-  if (ST.chFilter !== 'all') return abbreviateFilterLabel(ST.chFilter);
+  if (ST.chFilter !== 'all') return sectionShortLabel(ST.chFilter);
   return 'All Questions';
 }
 
@@ -1674,6 +1698,12 @@ function abbreviateFilterLabel(label) {
     .replace(/\bChapters\b/g, 'Chs')
     .replace(/\bChapter\b/g, 'Ch')
     .replace(/\bAppendix\b/g, 'App');
+}
+
+function sectionShortLabel(label) {
+  const str = String(label);
+  const match = str.match(/^(Chapter\s+\d+|Appendix\s+[A-Z])/);
+  return match ? match[1] : str;
 }
 
 function renderMobileFilterMenu() {
@@ -1693,7 +1723,7 @@ function renderMobileFilterMenu() {
     const count = QUESTIONS.filter(q => q.chapter === ch).length;
     const active = !ST.huntOnly && ST.chFilter === ch;
     html += `<button class="mobile-filter-option${active ? ' active' : ''}" onclick="setStudyFilter('chapter', ${i})">
-      <span class="filter-name">${esc(ch)}</span>
+      <span class="filter-name">${esc(sectionShortLabel(ch))}</span>
       <span class="filter-count">${count}</span>
     </button>`;
   });
@@ -1717,7 +1747,7 @@ function renderSidebar() {
     const pct = Math.round(lc/qs.length*100);
     const active = ST.chFilter === ch;
     html += `<div class="sb-item${active?' active':''}" data-ch="${esc(ch)}">
-      <div class="sb-name">${esc(ch)}</div>
+      <div class="sb-name">${esc(sectionShortLabel(ch))}</div>
       <div class="sb-prog-row">
         <div class="sb-prog-track"><div class="sb-prog-fill" style="width:${pct}%"></div></div>
         <span class="sb-pct">${pct}%</span>
@@ -1752,6 +1782,7 @@ function cardHTML(q) {
   return `<div class="q-card st-${st}" id="card-${q.id}">
     <div class="card-top">
       <span class="q-num">#${q.id}</span>
+      <span class="pg-badge">pg ${esc(q.pg)}</span>
       <span class="ch-badge" style="background:${cs.bg};color:${cs.fg};transform:rotate(${cs.rot}deg)">${esc(q.chapter)}</span>
     </div>
     <div class="q-text">${esc(q.q)}</div>
@@ -1906,7 +1937,7 @@ function initDrill() {
 
 function renderDrillHeader() {
   const d = ST.drill;
-  const scope = d.section === 'all' ? 'All sections' : d.section;
+  const scope = d.section === 'all' ? 'All sections' : sectionShortLabel(d.section);
   const score = d.mode === 'solo' ? `${d.correct}/${d.attempted}` : `${sectionQuestions().length}`;
 
   document.getElementById('drill-header').innerHTML = `
@@ -1949,7 +1980,7 @@ function renderDrillGate(el) {
   const chapters = [`<button class="ch-pill${d.section==='all'?' on':''}" onclick="setDrillSection('all')">All <span>${QUESTIONS.length}</span></button>`]
     .concat(CHAPTERS.map((ch, i) => {
       const n = QUESTIONS.filter(q => q.chapter === ch).length;
-      return `<button class="ch-pill${d.section===ch?' on':''}" onclick="setDrillSection(${i})">${esc(ch)} <span>${n}</span></button>`;
+      return `<button class="ch-pill${d.section===ch?' on':''}" onclick="setDrillSection(${i})">${esc(sectionShortLabel(ch))} <span>${n}</span></button>`;
     })).join('');
 
   el.innerHTML = `<div class="drill-gate">
@@ -2018,6 +2049,7 @@ function renderSoloDrill(el) {
     </div>
     <div class="drill-card-top">
       <span class="q-num">#${q.id}</span>
+      <span class="pg-badge">pg ${esc(q.pg)}</span>
       <span class="ch-badge" style="background:${cs.bg};color:${cs.fg};transform:rotate(${cs.rot}deg)">${esc(q.chapter)}</span>
     </div>
     <div class="drill-q-text">${esc(q.q)}</div>
@@ -2387,7 +2419,7 @@ function renderRoomSectionPicker(room) {
   const all = `<button class="ch-pill${room.section==='all'?' on':''}" onclick="setRoomSection('all')">All <span>${QUESTIONS.length}</span></button>`;
   const chapters = CHAPTERS.map((ch, i) => {
     const n = questionsForSection(ch).length;
-    return `<button class="ch-pill${room.section===ch?' on':''}" onclick="setRoomSection(${i})">${esc(ch)} <span>${n}</span></button>`;
+    return `<button class="ch-pill${room.section===ch?' on':''}" onclick="setRoomSection(${i})">${esc(sectionShortLabel(ch))} <span>${n}</span></button>`;
   }).join('');
 
   if (ST.drill.isHost) {
@@ -2398,7 +2430,7 @@ function renderRoomSectionPicker(room) {
 
   return `<div class="ch-selector-title">Round section</div>
     <div class="solo-notes-box">
-      ${esc(room.section === 'all' ? 'All sections' : room.section)} · ${count} questions
+      ${esc(room.section === 'all' ? 'All sections' : sectionShortLabel(room.section))} · ${count} questions
     </div>`;
 }
 
@@ -2498,6 +2530,7 @@ function renderGroupQuestion(el, room) {
     </div>
     <div class="drill-card-top">
       <span class="q-num">#${q.id}</span>
+      <span class="pg-badge">pg ${esc(q.pg)}</span>
       <span class="ch-badge" style="background:${cs.bg};color:${cs.fg};transform:rotate(${cs.rot}deg)">${esc(q.chapter)}</span>
     </div>
     <div class="drill-q-text">${esc(q.q)}</div>
@@ -2763,7 +2796,7 @@ if (!hasSavedAppData()) openModal();
     const manifest = {
       name: 'TL Toolkit Practice',
       short_name: 'TL Toolkit Practice',
-      description: 'HXP Trip Leader quiz study tool — 188 questions',
+      description: 'HXP Trip Leader quiz study tool — 200 questions',
       start_url: '.',
       display: 'standalone',
       orientation: 'portrait',
